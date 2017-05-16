@@ -1,2 +1,2 @@
-# data-retriever-jl
+# retriever
 Julia wrapper for the Data Retriever software

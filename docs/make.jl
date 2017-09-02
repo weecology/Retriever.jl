@@ -12,7 +12,8 @@ makedocs(
     pages = [
         "Home" => "intro.md",
         "Installation Guide" => "tutorial.md",
-        "Source" => "index.md"
+        "Source" => "index.md",
+        "Command Documentation" => "lib/public.md"
     ]
 )
 

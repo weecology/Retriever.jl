@@ -20,28 +20,14 @@ To install Retriever using the Julia package manager
 
 ```
 
-To install from Source, download or checkout the source from the [github page](https://github.com/weecology/Retriever.jl.git).
+To install from Source, download or checkout the source from the [github page](https://github.com/weecology/retriever.jl.git).
 
-Go to `Retriever.jl/src`. Run Julia.
+Go to `retriever.jl/src`. Run Julia.
 
 ```julia
 
-    julia> include("Retriever.jl")
+    julia> include("retriever.jl")
 
 ```
 
-To create docs
-
-```
-$julia --color=yes make.jl
-
-```
-
-or simply
-
-```
-
-$julia make.jl
-
-```
 (Note: If you want help in installing Julia you can follow this [tutorial](https://medium.com/@shivamnegi2019/julia-beginners-guide-part-1-a9c369128c78)

@@ -1,4 +1,4 @@
-module Retriever
+module retriever
 using PyCall
 
 @pyimport retriever as rt

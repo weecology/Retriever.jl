@@ -1,8 +1,8 @@
 # Data Retriever using Julia
 
-The wrapper module for [Data Retriever](http://data-retriever.org) has been implemented as [Retriever](https://github.com/weecology/Retriever.jl.git).
+The wrapper module for [Data Retriever](http://data-retriever.org) has been implemented as [Retriever](https://github.com/weecology/retriever.jl.git).
 All the functions work and feel the same as the python Retriever module. 
-The module has been created using ``PyCall`` hence all the functions are analogous to the functions of Retriever python module.
+The module has been created using ``PyCall`` hence all the functions are analogous to the functions of retriever python module.
 
 
 ## Installation
@@ -19,13 +19,13 @@ To install Retriever using the Julia package manager
 ```
 
 
-To install from Source, download or checkout the source from the [github page](https://github.com/weecology/Retriever.jl.git).
+To install from Source, download or checkout the source from the [github page](https://github.com/weecology/retriever.jl.git).
 
-Go to `Retriever.jl/src`. Run Julia.
+Go to `retriever.jl/src`. Run Julia.
 
 ```julia
 
-    julia> include("Retriever.jl")
+    julia> include("retriever.jl")
 
 ```
 
@@ -44,7 +44,7 @@ Get list of all the available datasets in Retriever.
 
 ```julia
     
-    julia> Retriever.dataset_names()
+    julia> retriever.dataset_names()
 
 ```
 
@@ -59,11 +59,11 @@ Updating scripts to the latest version.
 
 ```julia
 
-    julia> Retriever.check_for_updates()
+    julia> retriever.check_for_updates()
 
 ```
 
-Delete information stored by Retriever which could be scripts, connections or data.
+Delete information stored by retriever which could be scripts, connections or data.
 
 ```julia
 
@@ -75,9 +75,9 @@ Delete information stored by Retriever which could be scripts, connections or da
 ```julia
 
     """ Using default variable all"""
-    julia> Retriever.reset_retriever()
+    julia> retriever.reset_retriever()
     """ Set scope as scripts """
-    julia> Retriever.reset_retriever(scope="scripts")
+    julia> retriever.reset_retriever(scope="scripts")
 
 ```
 
@@ -94,7 +94,7 @@ To download datasets the ``download`` function can be used.
 
 ```julia
     
-    julia> Retriever.download("iris")
+    julia> retriever.download("iris")
 
 ```
 
@@ -137,12 +137,12 @@ Installing scripts into engines.
 
 ```julia
     
-    julia> Retriever.install_csv("iris")
-    julia> Retriever.install_mysql("iris")
-    julia> Retriever.install_postgres("iris")
-    julia> Retriever.install_sqlite("iris")
-    julia> Retriever.install_msaccess("iris")
-    julia> Retriever.install_json("iris")
-    julia> Retriever.install_xml("iris")
+    julia> retriever.install_csv("iris")
+    julia> retriever.install_mysql("iris")
+    julia> retriever.install_postgres("iris")
+    julia> retriever.install_sqlite("iris")
+    julia> retriever.install_msaccess("iris")
+    julia> retriever.install_json("iris")
+    julia> retriever.install_xml("iris")
 
 ```

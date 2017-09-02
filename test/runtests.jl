@@ -1,4 +1,4 @@
-using retriever
+using Retriever
 using Base.Test
 
 # write your own tests here

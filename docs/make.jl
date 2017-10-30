@@ -13,15 +13,15 @@ makedocs(
         "Home" => "intro.md",
         "Installation Guide" => "tutorial.md",
         "Source" => "index.md",
-        "Command Documentation" => "lib/public.md"
+        "Command Documentation" => "lib/public.md",
+        "Code of Conduct" => "CODE_OF_CONDUCT.md"
     ]
 )
 
 # deploydocs(
-#     repo   = "github.com/henrykironde/Retriever.jl",
+#     repo   = "github.com/weecology/Retriever.jl",
 #     target = "build",
 #     osname = "linux",
-#     #osname = "osx",
 #     julia  = "0.6",
 #     deps   = nothing,
 #     deps = Deps.pip("Retriever"),

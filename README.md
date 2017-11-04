@@ -1,3 +1,4 @@
+[![Build Status](https://travis-ci.org/weecology/Retriever.jl.svg?branch=master)](https://travis-ci.org/weecology/Retriever.jl)
 # Retriever
 
 Julia wrapper for the Data Retriever software.

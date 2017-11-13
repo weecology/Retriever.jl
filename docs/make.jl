@@ -18,12 +18,11 @@ makedocs(
     ]
 )
 
-# deploydocs(
-#     repo   = "github.com/weecology/Retriever.jl",
-#     target = "build",
-#     osname = "linux",
-#     julia  = "0.6",
-#     deps   = nothing,
-#     deps = Deps.pip("Retriever"),
-#     make   = nothing
-# )
+deploydocs(
+    repo   = "github.com/weecology/Retriever.jl",
+    target = "build",
+    osname = "linux",
+    julia  = "0.6",
+    deps   = Deps.pip("retriever"),
+    make   = nothing
+)

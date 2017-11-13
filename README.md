@@ -1,6 +1,19 @@
-[![Build Status](https://travis-ci.org/weecology/Retriever.jl.svg?branch=master)](https://travis-ci.org/weecology/Retriever.jl)
-# Retriever
 
+| **Documentation**                                                               | **PackageEvaluator**                                                                            | **Build Status**                                                                                |
+|:-------------------------------------------------------------------------------:|:-----------------------------------------------------------------------------------------------:|:-----------------------------------------------------------------------------------------------:|
+| [![][docs-stable-img]][docs-stable-url] [![][docs-latest-img]][docs-latest-url] |[![][license-img]][license-url]   | [![][travis-img]][travis-url] |
+
+[docs-stable-img]:https://img.shields.io/badge/docs-latest-blue.svg
+[docs-stable-url]: http://retrieverjl.readthedocs.io/en/latest/?badge=latest
+[docs-latest-img]: https://readthedocs.org/projects/retrieverjl/badge/?version=latest
+[docs-latest-url]: http://retrieverjl.readthedocs.io/en/latest/?badge=latest
+[travis-img]: https://travis-ci.org/weecology/Retriever.jl.svg?branch=master
+[travis-url]: https://travis-ci.org/weecology/Retriever.jl
+[license-img]: http://img.shields.io/badge/license-MIT-blue.svg
+[license-url]: https://raw.githubusercontent.com/weecology/Retriever.jl/master/LICENSE
+
+
+# Retriever
 Julia wrapper for the Data Retriever software.
 
 Data Retriever automates the tasks of finding, downloading, 

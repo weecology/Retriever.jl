@@ -1,27 +1,57 @@
-# Documentation: http://docs.travis-ci.com/user/languages/julia/
-language: julia
+sudo: required
+dist: trusty
+language: python
 os:
-  - linux
-  - osx
-julia:
-  - 0.5
-  - nightly
-notifications:
-  email: false
+    - linux
+python:
+  - "3.5"
+addons:
+  postgresql: "9.4"
+  apt:
+    packages:
+      - sqlite3
 
-## uncomment and modify the following lines to manually install system packages
-#addons:
-#  apt: # apt-get for linux
-#    packages:
-#    - gfortran
-#before_script: # homebrew for mac
-#  - if [ $TRAVIS_OS_NAME = osx ]; then brew install gcc; fi
+services:
+  - postgresql
+install:
+  - which python
+  - echo $PYTHON
+  - export PATH=$(which python):$PATH
+  - export PYTHON=$(which python)
+  - export JULIA_LOAD_PATH=$(abspath $(dir $(lastword $(MAKEFILE_LIST))))
+  - export PYTHONPATH=$(which python):$PYTHONPATH
 
-## uncomment the following lines to override the default test script
-#script:
-#  - julia -e 'Pkg.clone(pwd()); Pkg.build("Retriever"); Pkg.test("Retriever"; coverage=true)'
+  # install Retriever python library
+  - git clone https://github.com/weecology/retriever.git retriever
+  - cd retriever
+  - pip install -r requirements.txt
+  - pip install pytest-cov -U
+  - pip install pytest-xdist -U
+  - pip install  . -U
+  - cd ..
+  - rm -rf retriever/
+
+  # Installing Julia
+  - sudo add-apt-repository -y ppa:staticfloat/juliareleases -y
+  - sudo add-apt-repository -y ppa:staticfloat/julia-deps
+  - sudo -E apt-get -yq update &>> ~/apt-get-update.log
+  - sudo apt-get install libgmp3-dev
+  - sudo apt-get install julia
+  - julia -e 'versioninfo()'
+  - julia -E 'Pkg.update()'
+  - julia -e 'Pkg.add("PyCall")'
+
+# command to run tests using py.test
+script:
+  - source ~/virtualenv/python3.5/bin/activate
+  - which python
+  - py.test test/test_retriever.py -v
+  - julia test/runtests.jl
+
+# database setup
+before_script:
+  - sqlite3 --version
+  - psql -c 'create database testdb;' -U postgres
+
 after_success:
-  # push coverage results to Coveralls
-  - julia -e 'cd(Pkg.dir("Retriever")); Pkg.add("Coverage"); using Coverage; Coveralls.submit(Coveralls.process_folder())'
-  # push coverage results to Codecov
-  - julia -e 'cd(Pkg.dir("Retriever")); Pkg.add("Coverage"); using Coverage; Codecov.submit(Codecov.process_folder())'
+  - julia docs/make.jl

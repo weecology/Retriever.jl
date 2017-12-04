@@ -1,5 +1,6 @@
 push!(LOAD_PATH,"../src/Retriever.jl")
 include("../src/Retriever.jl")
+
 using Retriever
 using Documenter
 
@@ -7,7 +8,8 @@ makedocs(
     modules = [Retriever],
     clean = false,
     format = :html,
-    sitename = "Retriever",
+    build = "build",
+    sitename = "Retriever.jl",
     authors = "Ethan White",
     pages = [
         "Home" => "intro.md",
@@ -18,12 +20,10 @@ makedocs(
     ]
 )
 
-# deploydocs(
-#     repo   = "github.com/weecology/Retriever.jl",
-#     target = "build",
-#     osname = "linux",
-#     julia  = "0.6",
-#     deps   = nothing,
-#     deps = Deps.pip("Retriever"),
-#     make   = nothing
-# )
+deploydocs(
+    repo = "github.com/weecology/retriever.jl",
+    target = "build",
+    deps = Deps.pip("mkdocs"),
+    julia = "0.5",
+    make = nothing
+)

@@ -1,6 +1,8 @@
 module Retriever
 using PyCall
 
+export check_for_updates, dataset_names, download, install_csv, install_mysql, install_postgres, install_sqlite, install_msaccess, install_json, install_xml, reset_retriever
+
 @pyimport retriever as rt
 
 """

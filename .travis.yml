@@ -54,5 +54,6 @@ before_script:
   - psql -c 'create database testdb;' -U postgres
 
 after_success:
+  - pip install mkdocs
   - julia -e 'Pkg.add("Documenter")'
   - julia -e 'ENV["DOCUMENTER_DEBUG"]=true; include(joinpath("docs", "make.jl"))'

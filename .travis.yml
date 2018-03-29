@@ -54,4 +54,5 @@ before_script:
   - psql -c 'create database testdb;' -U postgres
 
 after_success:
-  - julia docs/make.jl
+  - julia -e 'Pkg.add("Documenter")'
+  - julia -e 'cd(Pkg.dir("Retriever")); include(joinpath("docs", "make.jl"))'

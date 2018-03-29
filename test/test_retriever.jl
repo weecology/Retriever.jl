@@ -13,7 +13,7 @@ using MySQL
 Retriever.check_for_updates()
 
 
-test_datasets = ["bird_size", "Iris"]
+test_datasets = ["bird-size", "Iris"]
 
 os_password = ""
 if is_windows()

@@ -14,25 +14,26 @@ encoding = ENCODING.lower()
 reload(sys)
 if hasattr(sys, 'setdefaultencoding'):
     sys.setdefaultencoding(encoding)
+import retriever as rt
 from retriever.lib.engine import Engine
-from retriever.lib.table import Table
+from retriever.lib.table import TabularDataset
 from retriever.lib.templates import BasicTextTemplate
 from retriever.lib.cleanup import correct_invalid_value
-from retriever.lib.tools import getmd5
-from retriever.lib.tools import xml2csv
-from retriever.lib.tools import json2csv
-from retriever.lib.tools import sort_file
-from retriever.lib.tools import sort_csv
-from retriever.lib.tools import create_file
-from retriever.lib.tools import file_2list
+from retriever.lib.engine_tools import getmd5
+from retriever.lib.engine_tools import xml2csv
+from retriever.lib.engine_tools import json2csv
+from retriever.lib.engine_tools import sort_file
+from retriever.lib.engine_tools import sort_csv
+from retriever.lib.engine_tools import create_file
+from retriever.lib.engine_tools import file_2list
 from retriever.lib.datapackage import clean_input, is_empty
-from retriever.lib.compile import add_dialect, add_schema
+from retriever.lib.cleanup import Cleanup
+
 
 # Create simple engine fixture
 test_engine = Engine()
-test_engine.table = Table("test")
-test_engine.script = BasicTextTemplate(tables={'test': test_engine.table},
-                                       name='test')
+test_engine.table = TabularDataset(**{"name": "test"})
+test_engine.script = BasicTextTemplate(**{"tables": test_engine.table, "name":"test"})
 test_engine.opts = {'database_name': '{db}_abc'}
 HOMEDIR = os.path.expanduser('~')
 file_location = os.path.dirname(os.path.realpath(__file__))
@@ -42,11 +43,14 @@ retriever_root_dir = os.path.abspath(os.path.join(file_location, os.pardir))
 def setup_module():
     """"Make sure you are in the main local retriever directory."""
     os.chdir(retriever_root_dir)
+    os.system('cp -r {0} {1}'.format("test/raw_data", retriever_root_dir))
 
 
 def teardown_module():
     """Make sure you are in the main local retriever directory after these tests."""
     os.chdir(retriever_root_dir)
+    if os.path.isdir(os.path.join(retriever_root_dir, "raw_data")):
+        shutil.rmtree(os.path.join(retriever_root_dir, "raw_data"))
 
 
 def test_auto_get_columns():
@@ -113,12 +117,12 @@ def test_auto_get_delimiter_semicolon():
 
 def test_correct_invalid_value_string():
     assert \
-        correct_invalid_value('NA', {'missing_values': ['NA', '-999']}) is None
+        correct_invalid_value('NA', {'missingValues': ['NA', '-999']}) is None
 
 
 def test_correct_invalid_value_number():
     assert \
-        correct_invalid_value(-999, {'missing_values': ['NA', '-999']}) is None
+        correct_invalid_value(-999, {'missingValues': ['NA', '-999']}) is None
 
 
 def test_correct_invalid_value_exception():
@@ -133,6 +137,32 @@ def test_create_db_statement():
 def test_database_name():
     """Test creating database name."""
     assert test_engine.database_name() == 'test_abc'
+
+
+def test_datasets():
+    """Check if datasets lookup includes a known value"""
+    datasets = rt.datasets(keywords = ['mammals'])
+    dataset_names = [dataset.name for dataset in datasets]
+    assert 'mammal-masses' in dataset_names
+
+
+def test_datasets_keywords():
+    """Check if datasets lookup on keyword includes a known value"""
+    datasets = rt.datasets(keywords = ['mammals'])
+    dataset_names = [dataset.name for dataset in datasets]
+    assert 'mammal-masses' in dataset_names
+
+
+def test_datasets_licenses():
+    """Check if datasets lookup on license includes a known value"""
+    datasets = rt.datasets(licenses=['CC0-1.0'])
+    dataset_names = [dataset.name for dataset in datasets]
+    assert 'amniote-life-hist' in dataset_names
+
+
+def test_dataset_names():
+    """Check if dataset names lookup includes a known value"""
+    assert 'mammal-masses' in rt.dataset_names()
 
 
 def test_drop_statement():
@@ -151,6 +181,34 @@ def test_extract_values_fixed_width():
 def test_find_file_absent():
     """Test if find_file() properly returns false if no file is present."""
     assert test_engine.find_file('missingfile.txt') is False
+
+
+def test_find_file_present():
+    """Test if existing datafile is found.
+
+    Using the bird-size dataset which is included for regression testing.
+    We copy the raw_data directory to retriever_root_dir which is the current working directory.
+    This enables the data to be in the DATA_SEARCH_PATHS.
+    """
+    test_engine.script.name = 'bird-size'
+    assert test_engine.find_file('avian_ssd_jan07.txt') == os.path.normpath(
+        'raw_data/bird-size/avian_ssd_jan07.txt')
+
+
+def test_format_data_dir():
+    """Test if directory for storing data is properly formated."""
+    test_engine.script.name = "TestName"
+    r_path = '.retriever/raw_data/TestName'
+    assert os.path.normpath(test_engine.format_data_dir()) == \
+           os.path.normpath(os.path.join(HOMEDIR, r_path))
+
+
+def test_format_filename():
+    """Test if filenames for stored files are properly formated."""
+    test_engine.script.name = "TestName"
+    r_path = '.retriever/raw_data/TestName/testfile.csv'
+    assert os.path.normpath(test_engine.format_filename('testfile.csv')) == \
+           os.path.normpath(os.path.join(HOMEDIR, r_path))
 
 
 def test_format_insert_value_int():
@@ -212,6 +270,52 @@ def test_json2csv():
     assert obs_out == ['User,Country,Age', 'Alex,US,25']
 
 
+def test_xml2csv():
+    """Test xml2csv function.
+
+    Creates a xml file and tests the md5 sum calculation.
+    """
+    xml_file = create_file(['<root>', '<row>',
+                            '<User>Alex</User>',
+                            '<Country>US</Country>',
+                            '<Age>25</Age>', '</row>',
+                            '<row>', '<User>Ben</User>',
+                            '<Country>US</Country>',
+                            '<Age>24</Age>',
+                            '</row>', '</root>'], 'output.xml')
+
+    output_xml = xml2csv(xml_file, "output_xml.csv",
+                         header_values=["User", "Country", "Age"])
+    obs_out = file_2list(output_xml)
+    os.remove(output_xml)
+    assert obs_out == ['User,Country,Age', 'Alex,US,25', 'Ben,US,24']
+
+
+def test_sort_file():
+    """Test md5 sum calculation."""
+    data_file = create_file(['Ben,US,24', 'Alex,US,25', 'Alex,PT,25'])
+    out_file = sort_file(data_file)
+    obs_out = file_2list(out_file)
+    os.remove(out_file)
+    assert obs_out == ['Alex,PT,25', 'Alex,US,25', 'Ben,US,24']
+
+
+def test_sort_csv():
+    """Test md5 sum calculation."""
+    data_file = create_file(['User,Country,Age',
+                             'Ben,US,24',
+                             'Alex,US,25',
+                             'Alex,PT,25'])
+    out_file = sort_csv(data_file)
+    obs_out = file_2list(out_file)
+    os.remove(out_file)
+    assert obs_out == [
+        'User,Country,Age',
+        'Alex,PT,25',
+        'Alex,US,25',
+        'Ben,US,24']
+
+
 def test_is_empty_null_string():
     """Test for null string."""
     assert is_empty("")
@@ -230,3 +334,100 @@ def test_is_empty_not_null_string():
 def test_is_empty_not_empty_list():
     """Test for not empty list."""
     assert is_empty(["not empty"]) == False
+
+
+def test_clean_input_empty_input_ignore_empty(monkeypatch):
+    """Test with empty input ignored."""
+
+    def mock_input(prompt):
+        return ""
+
+    monkeypatch.setattr('retriever.lib.datapackage.input', mock_input)
+    assert clean_input("", ignore_empty=True) == ""
+
+
+def test_clean_input_empty_input_not_ignore_empty(monkeypatch):
+    """Test with empty input not ignored."""
+
+    def mock_input(prompt):
+        mock_input.counter += 1
+        if mock_input.counter <= 1:
+            return ""
+        else:
+            return "not empty"
+
+    mock_input.counter = 0
+    monkeypatch.setattr('retriever.lib.datapackage.input', mock_input)
+    assert clean_input("", ignore_empty=False) == "not empty"
+
+
+def test_clean_input_string_input(monkeypatch):
+    """Test with non-empty input."""
+
+    def mock_input(prompt):
+        return "not empty"
+
+    monkeypatch.setattr('retriever.lib.datapackage.input', mock_input)
+    assert clean_input("") == "not empty"
+
+
+def test_clean_input_empty_list_ignore_empty(monkeypatch):
+    """Test with empty list ignored."""
+
+    def mock_input(prompt):
+        return ",  ,   ,"
+
+    monkeypatch.setattr('retriever.lib.datapackage.input', mock_input)
+    assert clean_input("", ignore_empty=True, split_char=",") == []
+
+
+def test_clean_input_empty_list_not_ignore_empty(monkeypatch):
+    """Test with empty list not ignored."""
+
+    def mock_input(prompt):
+        mock_input.counter += 1
+        if mock_input.counter <= 1:
+            return ",  ,   ,"
+        else:
+            return "1  ,    2,  3,"
+
+    mock_input.counter = 0
+    monkeypatch.setattr('retriever.lib.datapackage.input', mock_input)
+    assert clean_input("", split_char=",") == ["1", "2", "3"]
+
+
+def test_clean_input_not_empty_list(monkeypatch):
+    """Test with list input."""
+
+    def mock_input(prompt):
+        return "1,    2,     3"
+
+    monkeypatch.setattr('retriever.lib.datapackage.input', mock_input)
+    assert clean_input("", ignore_empty=True, split_char=',', dtype=None) == \
+           ["1", "2", "3"]
+
+
+def test_clean_input_bool(monkeypatch):
+    """Test with correct datatype input."""
+
+    def mock_input(prompt):
+        return "True "
+
+    monkeypatch.setattr('retriever.lib.datapackage.input', mock_input)
+    assert clean_input("", dtype=bool) == "True"
+
+
+def test_clean_input_not_bool(monkeypatch):
+    """Test with incorrect datatype input."""
+
+    def mock_input(prompt):
+        mock_input.counter += 1
+        if mock_input.counter <= 1:
+            return "non bool input"
+        else:
+            return "True "
+
+    mock_input.counter = 0
+    monkeypatch.setattr('retriever.lib.datapackage.input', mock_input)
+    assert clean_input("", dtype=bool) == "True"
+

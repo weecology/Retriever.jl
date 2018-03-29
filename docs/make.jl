@@ -23,7 +23,7 @@ makedocs(
 deploydocs(
     repo = "github.com/weecology/Retriever.jl.git",
     target = "build",
-    deps = Deps.pip("mkdocs"),
+    deps = nothing,
     julia = "",
     make = nothing
 )

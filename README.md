@@ -59,3 +59,12 @@ $julia make.jl
 
 ```
 (Note: If you want help in installing Julia you can follow this [tutorial](https://medium.com/@shivamnegi2019/julia-beginners-guide-part-1-a9c369128c78)
+
+Acknowledgments
+---------------
+
+Development of this software is funded by [the Gordon and Betty Moore
+Foundation's Data-Driven Discovery
+Initiative](http://www.moore.org/programs/science/data-driven-discovery) through
+[Grant GBMF4563](http://www.moore.org/grants/list/GBMF4563) to Ethan White and
+started as [Shivam Negi](https://www.linkedin.com/in/shivam-negi-64a227103/)'s [Google Summer of Code](https://summerofcode.withgoogle.com/)

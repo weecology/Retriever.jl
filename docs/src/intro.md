@@ -16,7 +16,7 @@ To install Retriever using the Julia package manager
 
 ```julia
 
-    julia> Pkg.add("Retriever")
+julia> Pkg.add("Retriever")
 
 ```
 
@@ -26,14 +26,14 @@ Go to `Retriever.jl/src`. Run Julia.
 
 ```julia
 
-    julia> include("Retriever.jl")
+julia> include("Retriever.jl")
 
 ```
 
 To create docs
 
 ```
-$julia --color=yes make.jl
+julia --color=yes make.jl
 
 ```
 
@@ -41,7 +41,7 @@ or simply
 
 ```
 
-$julia make.jl
+julia make.jl
 
 ```
 (Note: If you want help in installing Julia you can follow this [tutorial](https://medium.com/@shivamnegi2019/julia-beginners-guide-part-1-a9c369128c78)

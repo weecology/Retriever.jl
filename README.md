@@ -25,12 +25,30 @@ This allows data analysts to spend a majority of their time in analysing rather 
 
 To use Retriever, you first need to [install Retriever](http://www.data-retriever.org), a core python package.
 
-To install Retriever using the Julia package manager
+### Database Management Systems
+
+Depending on the database management systems you wish to use, follow the `Setting up servers` [documentation of the retriever](https://github.com/weecology/retriever). You can change the credentials to suit your server settings.
+
+The Retriever Julia package depends on a few Julia packages that will be installed automatically.
+
+Ensure that Pycall is using the same Python path where the retriever Python package is installed.
+
+You can change that path to a desired path as below.
+
+```julia
+
+julia> ENV["PYTHON"]="Python path where the retriever python package is installed"
+# Build Pycall to enable the use of the new path
+Pkg.build("PyCall")
+
+```
+
+To install Retriever Julia package
 
 
 ```julia
 
-    julia> Pkg.add("Retriever")
+julia> Pkg.add("Retriever")
 
 ```
 
@@ -38,26 +56,28 @@ To install from Source, download or checkout the source from the [github page](h
 
 Go to `Retriever.jl/src`. Run Julia.
 
-```julia
+```Julia
 
-    julia> include("Retriever.jl")
+julia> include("Retriever.jl")
 
 ```
 
 To create docs
 
-```
-$julia --color=yes make.jl
+```Shell
+
+julia --color=yes make.jl
 
 ```
 
 or simply
 
+```Shell
+
+julia make.jl
+
 ```
 
-$julia make.jl
-
-```
 (Note: If you want help in installing Julia you can follow this [tutorial](https://medium.com/@shivamnegi2019/julia-beginners-guide-part-1-a9c369128c78)
 
 Acknowledgments

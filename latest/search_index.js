@@ -21,7 +21,7 @@ var documenterSearchIndex = {"docs": [
     "page": "Home",
     "title": "Installation",
     "category": "section",
-    "text": "To use Retriever, you first need to install Retriever, a core python package.To install Retriever using the Julia package manager\n    julia> Pkg.add(\"Retriever\")\nTo install from Source, download or checkout the source from the github page.Go to Retriever.jl/src. Run Julia.\n    julia> include(\"Retriever.jl\")\nTo create docs$julia --color=yes make.jl\nor simply\n$julia make.jl\n(Note: If you want help in installing Julia you can follow this tutorial"
+    "text": "To use Retriever, you first need to install Retriever, a core python package.To install Retriever using the Julia package manager\njulia> Pkg.add(\"Retriever\")\nTo install from Source, download or checkout the source from the github page.Go to Retriever.jl/src. Run Julia.\njulia> include(\"Retriever.jl\")\nTo create docsjulia --color=yes make.jl\nor simply\njulia make.jl\n(Note: If you want help in installing Julia you can follow this tutorial"
 },
 
 {
@@ -54,6 +54,62 @@ var documenterSearchIndex = {"docs": [
     "title": "Tutorial",
     "category": "section",
     "text": "Get list of all the available datasets in Retriever.\n    \"\"\" Function Definition \"\"\"\n    function dataset_names()\n    \n    julia> Retriever.dataset_names()\nUpdating scripts to the latest version.\n    \"\"\" Function Definition \"\"\"\n    function check_for_updates()\n\n    julia> Retriever.check_for_updates()\nDelete information stored by Retriever which could be scripts, connections or data.\n    \"\"\" Function Definition \"\"\"\n    function reset_retriever(; scope::AbstractString=\"all\")\n\n    \"\"\" Using default variable all\"\"\"\n    julia> Retriever.reset_retriever()\n    \"\"\" Set scope as scripts \"\"\"\n    julia> Retriever.reset_retriever(scope=\"scripts\")\nTo download datasets the download function can be used.\n    \"\"\" Function Definition \"\"\"\n    function download(dataset; path::AbstractString=\"./\", quite::Bool=false,\n                subdir::Bool=false, use_cache::Bool=false, debug::Bool=false)\n\n    \n    julia> Retriever.download(\"iris\")\nInstalling scripts into engines.\n    \"\"\" Function Definition \"\"\"\n    function install_csv(dataset; table_name=nothing, compile::Bool=false,\n                debug::Bool=false, quite::Bool=false, use_cache::Bool=true)\n\n    function install_mysql(dataset; user::AbstractString=\"root\",\n                password::AbstractString=\"\", host::AbstractString=\"localhost\",\n                port::Int=3306, database_name=nothing, table_name=nothing,\n                compile::Bool=false, debug::Bool=false, quite::Bool=false,\n                use_cache::Bool=true)\n\n    function install_postgres(dataset; user::AbstractString=\"postgres\",\n                password::AbstractString=\"\", host::AbstractString=\"localhost\",\n                port::Int=5432, database::AbstractString=\"postgres\",\n                database_name=nothing, table_name=nothing, compile::Bool=false,\n                debug::Bool=false, quite::Bool=false, use_cache::Bool=true)\n\n    function install_sqlite(dataset; file=nothing, table_name=nothing,\n                compile::Bool=false, debug::Bool=false, quite::Bool=false,\n                use_cache::Bool=true)\n\n    function install_msaccess(dataset; file=nothing, table_name=nothing,\n                compile::Bool=false, debug::Bool=false, quite::Bool=false,\n                use_cache::Bool=true)\n\n    function install_json(dataset; table_name=nothing, compile::Bool=false,\n                debug::Bool=false, quite::Bool=false, use_cache::Bool=true)\n\n    function install_xml(dataset; table_name=nothing, compile::Bool=false,\n                debug::Bool=false, quite::Bool=false, use_cache::Bool=true)\n    \n    julia> Retriever.install_csv(\"iris\")\n    julia> Retriever.install_mysql(\"iris\")\n    julia> Retriever.install_postgres(\"iris\")\n    julia> Retriever.install_sqlite(\"iris\")\n    julia> Retriever.install_msaccess(\"iris\")\n    julia> Retriever.install_json(\"iris\")\n    julia> Retriever.install_xml(\"iris\")\n"
+},
+
+{
+    "location": "developer.html#",
+    "page": "Developer's Guide",
+    "title": "Developer's Guide",
+    "category": "page",
+    "text": ""
+},
+
+{
+    "location": "developer.html#Developer-documentation-for-Retriever-Julia-package-1",
+    "page": "Developer's Guide",
+    "title": "Developer documentation for Retriever Julia package",
+    "category": "section",
+    "text": "Before you begin, make sure you have the retriever python package installed"
+},
+
+{
+    "location": "developer.html#ALL-required-packeges-1",
+    "page": "Developer's Guide",
+    "title": "ALL required packeges",
+    "category": "section",
+    "text": "These packages will be installed once the Retriever.jl package is installedPycall Compat DocStringExtensions Documenter"
+},
+
+{
+    "location": "developer.html#PyCall-1",
+    "page": "Developer's Guide",
+    "title": "PyCall",
+    "category": "section",
+    "text": "Pycall julia is used to communicate with the retriever python package objects."
+},
+
+{
+    "location": "developer.html#Documenter-1",
+    "page": "Developer's Guide",
+    "title": "Documenter",
+    "category": "section",
+    "text": "Documenter tool is used for building documentation"
+},
+
+{
+    "location": "developer.html#Tests-1",
+    "page": "Developer's Guide",
+    "title": "Tests",
+    "category": "section",
+    "text": "The tests are performed in two fold We test the python core functions, and then followed by the julia core functions."
+},
+
+{
+    "location": "developer.html#Register-and-Release-Retriever-1",
+    "page": "Developer's Guide",
+    "title": "Register and Release Retriever",
+    "category": "section",
+    "text": "\njulia> ENV[\"PYTHON\"]=\"Python path where retriever python package is installed\"\njulia> Pkg.build(\"PyCall\")\njulia> Pkg.add(\"PyCall\")\njulia> Pkg.test(\"Retriever\")\njulia> Pkg.update()\njulia> Pkg.add(\"PkgDev\")\njulia> using  PkgDev\n\njulia> PkgDev.register(\"Retriever\")\nINFO: Registering Retriever at https://github.com/weecology/Retriever.jl.git\nINFO: Committing METADATA for Retriever\n\njulia> PkgDev.tag(\"Retriever\")\nINFO: Tagging Retriever v0.0.1\n\njulia> PkgDev.config()\nPkgDev.jl configuration:\nUser name: provide git user name\nUser email: provide git associated email\nEnter GitHub user [Defualt name]:\nDo you want to change this configuration? [N]:N\n\njulia> PkgDev.publish()\nINFO: Validating METADATA\nINFO: Creating a personal access token for Julia Package Manager on GitHub.\n	You will be asked to provide credentials to your GitHub account.\n\n...Git Credential authentication\n\nINFO: Pushing Retriever permanent tags: v0.0.1\nINFO: Submitting METADATA changes\nINFO: Forking JuliaLang/METADATA.jl to henrykironde\nINFO: Pushing changes as branch pull-request/ceea745c\nINFO: To create a pull-request, open:\n\n  https://[link to the Branch created]\n"
 },
 
 {

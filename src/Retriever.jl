@@ -1,4 +1,5 @@
 module Retriever
+using Pkg
 using PyCall
 
 export check_for_updates, dataset_names, download, install_csv, install_mysql, install_postgres, install_sqlite, install_msaccess, install_json, install_xml, reset_retriever
@@ -30,7 +31,7 @@ end
 """
 ```julia
     download(dataset; path::String="./", quite::Bool=false,
-            subdir::Bool=false, use_cache::Bool=false)
+                subdir::Bool=false, use_cache::Bool=false)
 ```
 
 Download scripts for retriever.
@@ -44,15 +45,13 @@ end
 ```julia
 
     install_csv(dataset; table_name::String="", compile::Bool=false,
-
-            debug::Bool=false, quite::Bool=false, use_cache::Bool=true)
+        debug::Bool=false, use_cache::Bool=true)
 ```
 
 Install Retriever scripts in csv format.
 """
-
-function install_csv(dataset; table_name::String="",
-                debug::Bool=false, use_cache::Bool=true)
+function install_csv(dataset; table_name::String="{db}_{table}",
+        debug::Bool=false, use_cache::Bool=true)
     rt.install_csv(dataset, table_name, debug, use_cache)
 
 end
@@ -61,9 +60,7 @@ end
 ```julia
     install_mysql(dataset; user::String="root",
                 password::String="", host::String="localhost",
-
                 port::Int=3306, database_name::String="", table_name::String="",
-
                 compile::Bool=false, debug::Bool=false, quite::Bool=false,
                 use_cache::Bool=true)
 ```
@@ -72,12 +69,10 @@ Install Retriever scripts in mysql database.
 """
 function install_mysql(dataset; user::String="root",
                 password::String="", host::String="localhost",
-
                 port::Int=3306, database_name::String="", table_name::String="",
                 debug::Bool=false, use_cache::Bool=true)
     rt.install_mysql(dataset, user, password, host, port, database_name,
                      table_name, debug, use_cache)
-
 end
 
 """
@@ -85,10 +80,8 @@ end
     install_postgres(dataset; user::String="postgres",
                 password::String="", host::String="localhost",
                 port::Int=5432, database::String="postgres",
-
-                database_name::String="", table_name::String="", compile::Bool=false,
-
-                debug::Bool=false, quite::Bool=false, use_cache::Bool=true)
+                database_name::String="", table_name::String="", bbox::Any=[],
+                debug::Bool=false, use_cache::Bool=true)
 ```
 
 Install Retriever scripts in database.
@@ -96,66 +89,50 @@ Install Retriever scripts in database.
 function install_postgres(dataset; user::String="postgres",
                 password::String="", host::String="localhost",
                 port::Int=5432, database::String="postgres",
-
-                database_name::String="", table_name::String="",
+                database_name::String="", table_name::String="", bbox::Any=[],
                 debug::Bool=false, use_cache::Bool=true)
-    rt.install_postgres(dataset, user, password, host, port, database,
-                        database_name, table_name, debug, use_cache)
 
+    rt.install_postgres(dataset, user, password, host, port, database,
+                        database_name, table_name, bbox, debug, use_cache)
 end
 
 """
 ```julia
-
     install_sqlite(dataset; file::String="", table_name::String="",
-
-                compile::Bool=false, debug::Bool=false, quite::Bool=false,
+                compile::Bool=false, debug::Bool=false,
                 use_cache::Bool=true)
 ```
 
 Install Retriever scripts in database.
 """
-
 function install_sqlite(dataset; file::String="", table_name::String="",
-                debug::Bool=false,
-                use_cache::Bool=true)
-    rt.install_sqlite(dataset, file, table_name, debug,
-
-                      use_cache)
+                debug::Bool=false, use_cache::Bool=true)
+    rt.install_sqlite(dataset, file, table_name, debug, use_cache)
 end
 
 """
 ```julia
-
-    install_msaccess(dataset; file::String="", table_name::String="",
-
-                compile::Bool=false, debug::Bool=false, quite::Bool=false,
-                use_cache::Bool=true)
+    install_msaccess(dataset; file::String="", table_name::String="", 
+                debug::Bool=false, use_cache::Bool=true)
 ```
-
 
 Install Retriever scripts in msacces.
 """
-
 function install_msaccess(dataset; file::String="", table_name::String="",
-                debug::Bool=false,
-
-                use_cache::Bool=true)
-    rt.install_msaccess(dataset, file, table_name, compile, debug, quite,
+                debug::Bool=false, use_cache::Bool=true)
+    rt.install_msaccess(dataset, file, table_name, debug, quite,
                         use_cache)
 end
 
 """
 ```julia
-
     install_json(dataset; table_name::String="", compile::Bool=false,
 
-            debug::Bool=false, quite::Bool=false, use_cache::Bool=true)
+            debug::Bool=false, use_cache::Bool=true)
 ```
 
 Install Retriever scripts in json format.
 """
-
 function install_json(dataset; table_name::String="",
                 debug::Bool=false, use_cache::Bool=true)
     rt.install_json(dataset, table_name, debug, use_cache)
@@ -164,15 +141,13 @@ end
 
 """
 ```julia
-
     install_xml(dataset; table_name::String="", compile::Bool=false,
 
-            debug::Bool=false, quite::Bool=false, use_cache::Bool=true)
+            debug::Bool=false, use_cache::Bool=true)
 ```
 
 Install Retriever scripts in xml format.
 """
-
 function install_xml(dataset; table_name::String="",
                 debug::Bool=false, use_cache::Bool=true)
     rt.install_xml(dataset, table_name, debug, use_cache)

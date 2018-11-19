@@ -1,14 +1,14 @@
 #!/usr/bin/env julia
+using Pkg
 push!(LOAD_PATH,"../src/Retriever.jl")
 include("../src/Retriever.jl")
 
 Pkg.add("SQLite")
 Pkg.add("MySQL")
 
-using Base.Test
+using Test
 
 # Run tests
 
-tic()
 @time include("test_retriever.jl")
-toc()
+

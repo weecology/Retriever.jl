@@ -15,10 +15,15 @@ Documenter
 
 Pycall julia is used to communicate with the retriever python package objects.
 
-
 ### Documenter
 
 Documenter tool is used for building documentation
+To test the documentations locally, install the current source
+```Julia
+
+julia> include("src/Retriever.jl")
+
+```
 
 ### Tests
 

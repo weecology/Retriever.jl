@@ -1,0 +1,33 @@
+version: '3'
+
+services:
+  mysql-legacy:
+    image: mysql:5.7
+    environment:
+      MYSQL_USER: travis
+      MYSQL_PASSWORD: Password12!
+      MYSQL_ROOT_PASSWORD: Password12!
+      MYSQL_DATABASE: testdb
+    # ports:
+    #   - "3309:3306"
+
+  pgdb:
+    image: postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: Password12!
+      POSTGRES_DB: testdb
+
+  admin:
+    image: adminer
+    ports:
+      - 8080:8080
+
+  product-service:
+    build: .
+    depends_on:
+      - mysql-legacy
+      - pgdb
+    ports:
+      - 5001:80
+ 

@@ -16,7 +16,7 @@ Retriever.check_for_updates()
 
 test_datasets = ["bird-size", "Iris"]
 
-os_password = ""
+os_password = "Password12!"
 if Sys.iswindows()
     os_password = "Password12!"
 end
@@ -30,7 +30,7 @@ postgres_opts =  Dict("engine" =>  "postgres",
                         "host" =>  "localhost",
                         "password" => os_password,
                         "port" =>  5432,
-                        "database" =>  "testdb27",
+                        "database" =>  "testdb",
                         "database_name" =>  "testschema2",
                         "table_name" => "{db}.{table}")
 

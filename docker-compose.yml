@@ -1,7 +1,7 @@
 version: '3'
 
 services:
-  mysql-legacy:
+  mysqldb:
     image: mysql:5.7
     environment:
       MYSQL_USER: travis
@@ -18,13 +18,16 @@ services:
       POSTGRES_PASSWORD: Password12!
       POSTGRES_DB: testdb
 
-  admin:
-    image: adminer
-    ports:
-      - 8080:8080
+  # admin:
+  #   image: adminer
+  #   ports:
+  #     - 8080:8080
 
-  product-service:
-    build: .
+  env_r:
+    container_name: rer
+    image: rer
+    command: bash -c "python --version"
+    build: . 
     depends_on:
       - mysql-legacy
       - pgdb

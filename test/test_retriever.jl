@@ -27,7 +27,7 @@ sqlite_opts = Dict("engine" => "sqlite",
 
 postgres_opts =  Dict("engine" =>  "postgres",
                         "user" =>  "postgres",
-                        "host" =>  "localhost",
+                        "host" =>  "pgdb",
                         "password" => os_password,
                         "port" =>  5432,
                         "database" =>  "testdb",
@@ -40,7 +40,7 @@ csv_opts = Dict("engine" =>  "csv",
 mysql_opt = Dict("engine" =>  "mysql",
                 "user" => "travis",
                 "password"=>"",
-                "host"=>"localhost",
+                "host"=>"mysqldb",
                 "port"=>3306,
                 "database_name"=>"testdb",
                 "table_name"=>"{db}.{table}")
@@ -119,18 +119,18 @@ my_tempdir = tempdir()
 # end
 
 
-# function install_postgres_engine(data_arg)
-#     try
-#       # Install dataset into mysql database
-#       Retriever.install_postgres(data_arg, user = postgres_opts["user"], host=postgres_opts["host"],port = postgres_opts["port"], database_name =postgres_opts["database_name"],table_name = postgres_opts["table_name"])
+function install_postgres_engine(data_arg)
+    try
+      # Install dataset into mysql database
+      Retriever.install_postgres(data_arg, user = postgres_opts["user"], host=postgres_opts["host"],port = postgres_opts["port"], database_name =postgres_opts["database_name"],table_name = postgres_opts["table_name"])
       
-#       # Since posgtres's api is currently not stable,
-#       # no test on data installed
-#       return true
-#     catch
-#         return false
-#     end
-# end
+      # Since posgtres's api is currently not stable,
+      # no test on data installed
+      return true
+    catch
+        return false
+    end
+end
 
 
 # # function install_sqlite_engine(::String)
@@ -174,11 +174,11 @@ my_tempdir = tempdir()
 
         # Data DB test
         # @test true == install_mysql_engine(datset_n)
-        # @test true == install_postgres_engine(datset_n)
+        @test true == install_postgres_engine(datset_n)
         # @test true == install_sqlite_engine(datset_n)
 
         # File engines use a temporary directory for tests
-        @test true == mktempdir() do dirname install_csv_engine(datset_n) end
+        # @test true == mktempdir() do dirname install_csv_engine(datset_n) end
         # @test true == mktempdir() do dirname install_json_engine(datset_n) end
         # @test true == mktempdir() do dirname install_xml_engine(datset_n) end
     end

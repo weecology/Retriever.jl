@@ -195,9 +195,9 @@ end
     for datset_n in test_datasets
 
         # Data DB test
-        # @test true == install_mysql_engine(datset_n)
+        @test true == install_mysql_engine(datset_n)
         @test true == install_postgres_engine(datset_n)
-        # @test true == install_sqlite_engine(datset_n)
+        @test true == install_sqlite_engine(datset_n)
 
         # File engines use a temporary directory for tests
         @test true == install_csv_engine(datset_n)

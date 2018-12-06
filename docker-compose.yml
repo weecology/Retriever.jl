@@ -23,13 +23,13 @@ services:
   #   ports:
   #     - 8080:8080
 
-  env_r:
-    container_name: rer
-    image: rer
+  retre:
+    container_name: rertne
+    image: rertie
     command: bash -c "python --version"
     build: . 
     depends_on:
-      - mysql-legacy
+      - mysqldb
       - pgdb
     ports:
       - 5001:80

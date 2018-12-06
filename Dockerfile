@@ -22,7 +22,7 @@ RUN echo "export PYTHONPATH="/usr/bin/python:$PYTHONPATH"" >> ~/.profile
 # Database settings
 # Create .pgpass in your home directory
 # use docker-compose service name for localhost
-RUN echo "pgdb:*:testdb:postgres:Password12!" >> ~/.pgpass
+RUN echo "pgdb:*:testdb:postgres:Password12!" >> /Retriever.jl/.pgpass
  
 # RUN "export PATH=\"/usr/bin/python:$PATH"
 RUN pip install git+https://git@github.com/weecology/retriever.git  && retriever ls
@@ -34,7 +34,8 @@ RUN pip install pymysql
 # RUN apt-get install libgmp3-dev apt-get install julia
 COPY . /Retriever.jl
 
-WORKDIR /Retriever.jl 
+WORKDIR /Retriever.jl
+RUN echo "pgdb:*:testdb:postgres:Password12!" >> /Retriever.jl/.pgpass
 #https://gist.github.com/md5/7793ee806183b1c846be
 RUN julia -e 'using InteractiveUtils; versioninfo()'
 RUN julia -e 'using Pkg;Pkg.update()'

@@ -105,9 +105,9 @@ end
 
 Install Retriever scripts in database.
 """
-function install_sqlite(dataset; file::String="", table_name::String="",
+function install_sqlite(dataset; file::String="", table_name::String="{db}.{table}",
                 debug::Bool=false, use_cache::Bool=true)
-    rt.install_sqlite(dataset, file, table_name, debug, use_cache)
+    return rt.install_sqlite(dataset, file, table_name, debug, use_cache)
 end
 
 """
@@ -126,14 +126,12 @@ end
 
 """
 ```julia
-    install_json(dataset; table_name::String="", compile::Bool=false,
-
-            debug::Bool=false, use_cache::Bool=true)
+    install_json(dataset; table_name::String="", compile::Bool=false, debug::Bool=false, use_cache::Bool=true)
 ```
 
 Install Retriever scripts in json format.
 """
-function install_json(dataset; table_name::String="",
+function install_json(dataset; table_name::String="{db}_{table}",
                 debug::Bool=false, use_cache::Bool=true)
     rt.install_json(dataset, table_name, debug, use_cache)
 

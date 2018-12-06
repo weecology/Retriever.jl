@@ -11,6 +11,10 @@ ENV LC_ALL en_US.UTF-8
 ENV LANG en_US.UTF-8
 ENV LANGUAGE en_US.UTF-8
 
+COPY ./cli_tools/.pgpass ~/.pgpass
+COPY ./cli_tools/.my.cnf  ~/.my.cnf
+
+
 RUN apt-get remove -y python && apt-get install -y python3  python3-pip curl 
 # r-base
 RUN rm -f /usr/bin/python && ln -s /usr/bin/python3 /usr/bin/python
@@ -19,15 +23,15 @@ RUN rm -f /usr/bin/pip && ln -s /usr/bin/pip3 /usr/bin/pip
 RUN echo "export PATH="/usr/bin/python:$PATH"" >> ~/.profile
 RUN echo "export PYTHONPATH="/usr/bin/python:$PYTHONPATH"" >> ~/.profile
 
-# Database settings
-# Create .pgpass in your home directory
-# use docker-compose service name for localhost
-RUN echo "pgdb:*:testdb:postgres:Password12!" >> /Retriever.jl/.pgpass
+RUN chmod 0644 ~/.profile
+# # /bin/sh -c chmod 0600 ~/.pgpass' returned a non-zero code: 1
+# Do not do this
+# RUN chmod 0600 ~/.pgpass
+# RUN chmod 0600 ~/.my.cnf
  
 # RUN "export PATH=\"/usr/bin/python:$PATH"
 RUN pip install git+https://git@github.com/weecology/retriever.git  && retriever ls
 RUN pip install  psycopg2 pymysql
-RUN pip install pymysql
 # installing julia from repo
 # RUN add-apt-repository -y ppa:staticfloat/juliareleases ppa:staticfloat/julia-deps
 # RUN apt-get -yq update &>> ~/apt-get-update.log
@@ -35,7 +39,7 @@ RUN pip install pymysql
 COPY . /Retriever.jl
 
 WORKDIR /Retriever.jl
-RUN echo "pgdb:*:testdb:postgres:Password12!" >> /Retriever.jl/.pgpass
+
 #https://gist.github.com/md5/7793ee806183b1c846be
 RUN julia -e 'using InteractiveUtils; versioninfo()'
 RUN julia -e 'using Pkg;Pkg.update()'

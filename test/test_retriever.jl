@@ -16,11 +16,10 @@ Retriever.check_for_updates()
 # Service host names 
 # Use service names on travis as host names else localhost
 if haskey(ENV, "ON_TRAVIS") == false
-  pgdb = "pgdb"
-  mysqldb = "mysqldb"
+    pgdb = "pgdb"
+    mysqldb = "mysqldb"
 else
-  pgdb = "localhost"
-  mysqldb = "mysqldb"
+    pgdb = mysqldb = "localhost"
 end 
 
 test_datasets = ["bird-size", "Iris"]
@@ -137,7 +136,7 @@ function install_mysql_engine(data_arg)
       Retriever.install_mysql(data_arg, user = mysql_opt["user"], host=mysql_opt["host"], port = mysql_opt["port"], database_name =mysql_opt["database_name"], table_name = mysql_opt["table_name"])
       
       # Fetch the first 3 row entries from the table
-      con = mysql_connect(data_arg, user = mysql_opt["user"], host=mysql_opt["host"], port = mysql_opt["port"], database_name =mysql_opt["database_name"])
+      con = mysql_connect(data_arg, user = mysql_opt["user"], password=mysql_opt["password"],  host=mysql_opt["host"], port = mysql_opt["port"], database_name =mysql_opt["database_name"])
       table_n = mysql_opt["table_name"]
       command = "SELECT * FROM $table_n"
       dframe = mysql_execute(con, command)
@@ -155,7 +154,7 @@ end
 function install_postgres_engine(data_arg::String)
     try
       # Install dataset into mysql database
-      Retriever.install_postgres(data_arg, user = postgres_opts["user"], host=postgres_opts["host"], port = postgres_opts["port"], database_name =postgres_opts["database_name"],table_name = postgres_opts["table_name"])
+      Retriever.install_postgres(data_arg, user = postgres_opts["user"], password=postgres_opts["password"], host=postgres_opts["host"], port = postgres_opts["port"], database_name =postgres_opts["database_name"], table_name = postgres_opts["table_name"])
 
       # Since posgtres's api is currently not stable,
       # no test on data installed
@@ -166,28 +165,28 @@ function install_postgres_engine(data_arg::String)
 end
 
 
-# # function install_sqlite_engine(::String)
-# function install_sqlite_engine(data_arg)
-#     try
-#         mktempdir() do dir_tmp
-#             cd(dir_tmp) do
-#                 # Install dataset into SQLite database
-#                 Retriever.install_sqlite(data_arg, file=sqlite_opts["file"], table_name=sqlite_opts["table_name"])
+# function install_sqlite_engine(::String)
+function install_sqlite_engine(data_arg)
+    try
+        mktempdir() do dir_tmp
+            cd(dir_tmp) do
+                # Install dataset into SQLite database
+                Retriever.install_sqlite(data_arg, file=sqlite_opts["file"], table_name=sqlite_opts["table_name"])
                 
-#                 # Fetch the first 3 entries in the table 
-#                 table_n = sqlite_opts["table_name"]
-#                 db = SQLite.DB(sqlite_opts["file"])
-#                 result = SQLite.query(db, "SELECT * FROM sqlite_master WHERE type = "table"")
-#                 i for i in r[1]]
-#                 # Verify a name similar to the dataset
-#                 @test size(result, 1) => 1
-#                 return true
-#             end
-#         end
-#     catch
-#         return false
-#     end
-# end
+                # Fetch the first 3 entries in the table 
+                # table_n = sqlite_opts["table_name"]
+                # db = SQLite.DB(sqlite_opts["file"])
+                # result = SQLite.query(db, "SELECT * FROM sqlite_master WHERE type = "table"")
+                # i for i in r[1]]
+                # # Verify a name similar to the dataset
+                # @test size(result, 1) => 1
+                return true
+            end
+        end
+    catch
+        return false
+    end
+end
 
 
 @testset "Regression" begin

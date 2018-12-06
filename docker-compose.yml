@@ -23,10 +23,12 @@ services:
   #   ports:
   #     - 8080:8080
 
-  retre:
-    container_name: rertne
-    image: rertie
+  retj:
+    container_name: rej_name
+    image: retj_i
     command: bash -c "python --version"
+    environment:
+      ENV: "ON_TRAVIS"
     build: . 
     depends_on:
       - mysqldb

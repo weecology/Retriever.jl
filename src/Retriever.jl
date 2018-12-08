@@ -2,7 +2,10 @@ module Retriever
 using Pkg
 using PyCall
 
-export check_for_updates, dataset_names, download, install_csv, install_mysql, install_postgres, install_sqlite, install_msaccess, install_json, install_xml, reset_retriever
+export check_for_updates, dataset_names, download
+export install_csv, install_mysql, install_postgres
+export install_sqlite, install_msaccess, install_json
+export install_xml, reset_retriever
 
 @pyimport retriever as rt
 
@@ -53,7 +56,6 @@ Install Retriever scripts in csv format.
 function install_csv(dataset; table_name::String="{db}_{table}",
         debug::Bool=false, use_cache::Bool=true)
     rt.install_csv(dataset, table_name, debug, use_cache)
-
 end
 
 """
@@ -69,7 +71,7 @@ Install Retriever scripts in mysql database.
 """
 function install_mysql(dataset; user::String="root",
                 password::String="", host::String="localhost",
-                port::Int=3306, database_name::String="", table_name::String="",
+                port::Int=3306, database_name::String="{db}", table_name::String="{db}.{table}",
                 debug::Bool=false, use_cache::Bool=true)
     rt.install_mysql(dataset, user, password, host, port, database_name,
                      table_name, debug, use_cache)
@@ -89,7 +91,7 @@ Install Retriever scripts in database.
 function install_postgres(dataset; user::String="postgres",
                 password::String="", host::String="localhost",
                 port::Int=5432, database::String="postgres",
-                database_name::String="", table_name::String="", bbox::Any=[],
+                database_name::String="{db}", table_name::String="{db}.{table}", bbox::Any=[],
                 debug::Bool=false, use_cache::Bool=true)
 
     rt.install_postgres(dataset, user, password, host, port, database,
@@ -131,7 +133,7 @@ end
 
 Install Retriever scripts in json format.
 """
-function install_json(dataset; table_name::String="{db}_{table}",
+function install_json(dataset; table_name::String="{db}_{table}.json",
                 debug::Bool=false, use_cache::Bool=true)
     rt.install_json(dataset, table_name, debug, use_cache)
 
@@ -146,7 +148,7 @@ end
 
 Install Retriever scripts in xml format.
 """
-function install_xml(dataset; table_name::String="",
+function install_xml(dataset; table_name::String="{db}_{table}.xml",
                 debug::Bool=false, use_cache::Bool=true)
     rt.install_xml(dataset, table_name, debug, use_cache)
 

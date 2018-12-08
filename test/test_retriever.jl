@@ -11,8 +11,11 @@ using PyCall
 using SQLite
 using MySQL
 
-Retriever.check_for_updates()
+@pyimport psycopg2
 
+Retriever.check_for_updates()
+os_password = "Password12!" 
+test_datasets = ["bird-size", "Iris"]
 # Service host names 
 # Use service names on travis as host names else localhost
 if haskey(ENV, "ON_TRAVIS") == false
@@ -20,19 +23,10 @@ if haskey(ENV, "ON_TRAVIS") == false
     mysqldb = "mysqldb"
 else
     pgdb = mysqldb = "localhost"
-end 
-
-test_datasets = ["bird-size", "Iris"]
-
-os_password = "Password12!"
-if Sys.iswindows()
-    os_password = "Password12!"
 end
-
 sqlite_opts = Dict("engine" => "sqlite",
                     "file" => "dbfile",
                     "table_name" => "{db}.{table}")
-
 postgres_opts =  Dict("engine" =>  "postgres",
                         "user" =>  "postgres",
                         "host" =>  pgdb,
@@ -41,10 +35,8 @@ postgres_opts =  Dict("engine" =>  "postgres",
                         "database" =>  "testdb",
                         "database_name" =>  "testschema2",
                         "table_name" => "{db}.{table}")
-
 csv_opts = Dict("engine" =>  "csv",
                 "table_name" => "{db}_{table}.csv")
-
 mysql_opt = Dict("engine" =>  "mysql",
                 "user" => "travis",
                 "password"=> os_password,
@@ -52,16 +44,10 @@ mysql_opt = Dict("engine" =>  "mysql",
                 "port"=>3306,
                 "database_name"=>"testdb",
                 "table_name"=>"{db}.{table}")
-
-
 json_opt = Dict("engine" =>  "json",
                 "table_name" => "{db}_{table}.json")
-
-
 xml_opt = Dict("engine" =>  "xml",
                 "table_name" => "{db}_{table}.xml")
-
-
 
 function setup()
     # result 
@@ -153,6 +139,13 @@ end
 
 function install_postgres_engine(data_arg::String)
     try
+      # Use python to drop table.
+      usr = postgres_opts["user"]
+      prt = postgres_opts["port"]
+      cmd = "psql -U $usr -d testdb -h $pgdb -p $prt -c"
+      drop_sql = "DROP SCHEMA IF EXISTS testschema CASCADE"
+      query_stm = "$cmd $drop_sql"
+      # subprocess.call(shlex.split(cmd))  we need to set up psql passwordless
       # Install dataset into mysql database
       Retriever.install_postgres(data_arg, user = postgres_opts["user"], password=postgres_opts["password"], host=postgres_opts["host"], port = postgres_opts["port"], database_name =postgres_opts["database_name"], table_name = postgres_opts["table_name"])
 
@@ -172,14 +165,6 @@ function install_sqlite_engine(data_arg)
             cd(dir_tmp) do
                 # Install dataset into SQLite database
                 Retriever.install_sqlite(data_arg, file=sqlite_opts["file"], table_name=sqlite_opts["table_name"])
-                
-                # Fetch the first 3 entries in the table 
-                # table_n = sqlite_opts["table_name"]
-                # db = SQLite.DB(sqlite_opts["file"])
-                # result = SQLite.query(db, "SELECT * FROM sqlite_master WHERE type = "table"")
-                # i for i in r[1]]
-                # # Verify a name similar to the dataset
-                # @test size(result, 1) => 1
                 return true
             end
         end
@@ -196,13 +181,15 @@ end
 
         # Data DB test
         @test true == install_mysql_engine(datset_n)
-        @test true == install_postgres_engine(datset_n)
-        @test true == install_sqlite_engine(datset_n)
 
-        # File engines use a temporary directory for tests
-        @test true == install_csv_engine(datset_n)
-        @test true == install_json_engine(datset_n)
-        @test true == install_xml_engine(datset_n)
+        # Postgres is currently unstable, December 2018
+        @test true == install_postgres_engine(datset_n)
+        # @test true == install_sqlite_engine(datset_n)
+
+        # # File engines use a temporary directory for tests
+        # @test true == install_csv_engine(datset_n)
+        # @test true == install_json_engine(datset_n)
+        # @test true == install_xml_engine(datset_n)
     end
 
 end # @testset Regression

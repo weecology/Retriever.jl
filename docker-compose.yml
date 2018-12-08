@@ -14,7 +14,7 @@ services:
   pgdb:
     image: postgres
     environment:
-      POSTGRES_USER: postgres
+      # POSTGRES_USER: postgres
       POSTGRES_PASSWORD: Password12!
       POSTGRES_DB: testdb
 

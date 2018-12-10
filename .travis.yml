@@ -7,3 +7,5 @@ before_install:
 -  docker-compose  run retj
 script:
 -  docker-compose run retj julia test/runtests.jl || exit 1
+# cp cli_tools/.pgpass  ~/
+# psql -U postgres -h pgdb  -d testdb -w

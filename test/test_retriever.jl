@@ -119,11 +119,12 @@ end
 function install_mysql_engine(data_arg)
     try
       # Drop database
-      con = mysql_connect(data_arg, user = mysql_opt["user"], password=mysql_opt["password"],  host=mysql_opt["host"], port = mysql_opt["port"], database_name =mysql_opt["database_name"])
-      table_n = mysql_opt["table_name"]
-      command = "DROP TABLE IF EXISTS $testdb"
-      dframe = mysql_execute(con, command)
-      mysql_disconnect(con)
+      conn = MySQL.connect(mysql_opt["host"], mysql_opt["user"], mysql_opt["password"], db = mysql_opt["database_name"])
+      db = mysql_opt["database_name"]
+      command = "DROP TABLE IF EXISTS $db"
+      MySQL.Stmt(conn, command)
+      # dframe = mysql_execute(con, command)
+      MySQL.disconnect(conn)
       # Install dataset into mysql database
       Retriever.install_mysql(data_arg, user = mysql_opt["user"], password=mysql_opt["password"], host=mysql_opt["host"], port = mysql_opt["port"], database_name =mysql_opt["database_name"], table_name = mysql_opt["table_name"])
       
@@ -189,13 +190,13 @@ end
         @test true == install_mysql_engine(datset_n)
 
         # Postgres is currently unstable, December 2018
-        # @test true == install_postgres_engine(datset_n)
-        # @test true == install_sqlite_engine(datset_n)
+        @test true == install_postgres_engine(datset_n)
+        @test true == install_sqlite_engine(datset_n)
 
-        # # File engines use a temporary directory for tests
-        # @test true == install_csv_engine(datset_n)
-        # @test true == install_json_engine(datset_n)
-        # @test true == install_xml_engine(datset_n)
+        # File engines use a temporary directory for tests
+        @test true == install_csv_engine(datset_n)
+        @test true == install_json_engine(datset_n)
+        @test true == install_xml_engine(datset_n)
     end
 
 end # @testset Regression

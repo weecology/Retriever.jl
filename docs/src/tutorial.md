@@ -1,7 +1,7 @@
 # Data Retriever using Julia
 
 The wrapper module for [Data Retriever](http://data-retriever.org) has been implemented as [Retriever](https://github.com/weecology/Retriever.jl.git).
-All the functions work and feel the same as the python Retriever module. 
+All the functions work and feel the same as the python Retriever module.
 The module has been created using ``PyCall`` hence all the functions are analogous to the functions of Retriever python module.
 
 
@@ -43,7 +43,7 @@ Get list of all the available datasets in Retriever.
 ```
 
 ```julia
-    
+
     julia> Retriever.dataset_names()
 
 ```
@@ -93,7 +93,7 @@ To download datasets the ``download`` function can be used.
 ```
 
 ```julia
-    
+
     julia> Retriever.download("iris")
 
 ```
@@ -136,7 +136,7 @@ Installing scripts into engines.
 ```
 
 ```julia
-    
+
     julia> Retriever.install_csv("iris")
     julia> Retriever.install_mysql("iris")
     julia> Retriever.install_postgres("iris")

@@ -1,16 +1,20 @@
 push!(LOAD_PATH,"../src/Retriever.jl")
 include("../src/Retriever.jl")
 
-using Retriever
-using Documenter
+Pkg.add("Documenter")
+using Documenter, DocumenterTools
 
 makedocs(
     modules = [Retriever],
     clean = false,
-    format = :html,
+    format = Documenter.HTML(
+        # Use clean URLs, unless built as a "local" build
+        # Or set prettyurls = false
+        prettyurls = !("local" in ARGS)),
     build = "build",
     sitename = "Retriever.jl",
     authors = "Ethan White",
+    linkcheck = !("skiplinks" in ARGS),
     pages = [
         "Home" => "intro.md",
         "Installation Guide" => "tutorial.md",

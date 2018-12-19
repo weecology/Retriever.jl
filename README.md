@@ -12,13 +12,13 @@
 [license-img]: http://img.shields.io/badge/license-MIT-blue.svg
 [license-url]: https://raw.githubusercontent.com/weecology/Retriever.jl/master/LICENSE
 
-
 # Retriever
+
 Julia wrapper for the Data Retriever software.
 
-Data Retriever automates the tasks of finding, downloading, 
-and cleaning up publicly available data, and then stores them in a local database or as .csv files. 
-Simply put, it's a package manager for data. 
+Data Retriever automates the tasks of finding, downloading,
+and cleaning up publicly available data, and then stores them in a local database or as .csv files.
+Simply put, it's a package manager for data.
 This allows data analysts to spend a majority of their time in analysing rather than in cleaning up or managing data.
 
 ## Installation
@@ -45,7 +45,6 @@ Pkg.build("PyCall")
 
 To install Retriever Julia package
 
-
 ```julia
 
 julia> Pkg.add("Retriever")
@@ -54,15 +53,42 @@ julia> Pkg.add("Retriever")
 
 To install from Source, download or checkout the source from the [github page](https://github.com/weecology/Retriever.jl.git).
 
-Go to `Retriever.jl/src`. Run Julia.
+Go to `Retriever.jl` directory and. Run Julia.
 
 ```Julia
 
-julia> include("Retriever.jl")
+julia> include("src/Retriever.jl")
 
 ```
 
-To create docs
+## Example of installing the Datasets
+
+```julia
+
+# Using default parameter as the arguments
+julia> Retriever.install_postgres("iris")
+ # Passing user specfic arguments
+julia> Retriever.install_postgres("iris", user = "postgres",
+		password="Password12!", host="localhost", port=5432)
+
+```
+
+```julia
+
+julia> Retriever.install_csv("iris")
+julia> Retriever.install_mysql("iris")
+julia> Retriever.install_sqlite("iris")
+julia> Retriever.install_msaccess("iris")
+julia> Retriever.install_json("iris")
+julia> Retriever.install_xml("iris")
+
+```
+
+Creating docs.
+
+To create docs, first refer to the
+[Documenter docs](https://juliadocs.github.io/Documenter.jl/stable/man/guide).
+To test doc locally run make.jl
 
 ```Shell
 
@@ -78,7 +104,19 @@ julia make.jl
 
 ```
 
-(Note: If you want help in installing Julia you can follow this [tutorial](https://medium.com/@shivamnegi2019/julia-beginners-guide-part-1-a9c369128c78)
+## Using Docker
+
+To run tests using docker
+
+`docker-compose run --service-ports retrieverj julia test/runtests.jl`
+
+To run the image interactively
+
+`docker-compose run --service-ports retrieverj /bin/bash`
+
+To test docs in docker
+
+` docker-compose run --service-ports retrieverj bash -c "cd docs &&  julia make.jl"`
 
 Acknowledgments
 ---------------

@@ -12,7 +12,7 @@ Retriever.check_for_updates()
 # datasets to test
 test_datasets = ["bird-size", "Iris"]
 
-# Service host names 
+# Service host names
 # Use service names on travis as host names else localhost
 # Set in Docker compose
 pgdb = mysqldb = "localhost"
@@ -50,7 +50,7 @@ xml_opt = Dict("engine" =>  "xml",
                 "table_name" => "{db}_{table}.xml")
 
 function setup()
-    # result 
+    # result
 end
 
 function teardown()
@@ -62,7 +62,7 @@ function empty_files(path, ext)
             relative_path = joinpath(root, file)
             if endswith(relative_path, ext)
                 println(relative_path)
-                @test filesize(relative_path) > 10 
+                @test filesize(relative_path) > 10
             end
         end
     end
@@ -73,7 +73,7 @@ function install_csv_engine(data_arg)
         mktempdir() do dir_tmp
             cd(dir_tmp) do
                     # Install dataset into Json database
-                    Retriever.install_csv(data_arg, 
+                    Retriever.install_csv(data_arg,
                         table_name = csv_opts["table_name"])
                     empty_files(dir_tmp, ".csv")
             end
@@ -83,7 +83,7 @@ function install_csv_engine(data_arg)
         return false
     end
 end
- 
+
 my_tempdir = tempdir()
 @test isdir(my_tempdir) == true
 
@@ -92,7 +92,7 @@ function install_json_engine(data_arg)
         mktempdir() do dir_tmp
             cd(dir_tmp) do
                     # Install dataset into Json database
-                    Retriever.install_json(data_arg, 
+                    Retriever.install_json(data_arg,
                         table_name = json_opt["table_name"])
                     empty_files(dir_tmp, ".json")
             end
@@ -108,7 +108,7 @@ function install_xml_engine(data_arg)
         mktempdir() do dir_tmp
             cd(dir_tmp) do
                     # Install dataset into Json database
-                    Retriever.install_xml(data_arg, 
+                    Retriever.install_xml(data_arg,
                         table_name = xml_opt["table_name"])
                     empty_files(dir_tmp, ".xml")
             end
@@ -130,12 +130,12 @@ function install_mysql_engine(data_arg)
       # dframe = mysql_execute(con, command)
       MySQL.disconnect(conn)
       # Install dataset into mysql database
-      Retriever.install_mysql(data_arg, 
-          user = mysql_opt["user"], 
-          password = mysql_opt["password"], 
-          host = mysql_opt["host"], 
-          port = mysql_opt["port"], 
-          database_name = mysql_opt["database_name"], 
+      Retriever.install_mysql(data_arg,
+          user = mysql_opt["user"],
+          password = mysql_opt["password"],
+          host = mysql_opt["host"],
+          port = mysql_opt["port"],
+          database_name = mysql_opt["database_name"],
           table_name = mysql_opt["table_name"])
       return true
     catch
@@ -155,12 +155,12 @@ function install_postgres_engine(data_arg::String)
       os.system(query_stm)
 
       # Install dataset into mysql database
-      Retriever.install_postgres(data_arg, 
-          user = postgres_opts["user"], 
-          password = postgres_opts["password"], 
-          host = postgres_opts["host"], 
-          port = postgres_opts["port"], 
-          database_name = postgres_opts["database_name"], 
+      Retriever.install_postgres(data_arg,
+          user = postgres_opts["user"],
+          password = postgres_opts["password"],
+          host = postgres_opts["host"],
+          port = postgres_opts["port"],
+          database_name = postgres_opts["database_name"],
           table_name = postgres_opts["table_name"])
       return true
     catch

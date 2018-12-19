@@ -2,9 +2,9 @@
 
 Julia wrapper for the Data Retriever software.
 
-Data Retriever automates the tasks of finding, downloading, 
-and cleaning up publicly available data, and then stores them in a local database or as .csv files. 
-Simply put, it's a package manager for data. 
+Data Retriever automates the tasks of finding, downloading,
+and cleaning up publicly available data, and then stores them in a local database or as .csv files.
+Simply put, it's a package manager for data.
 This allows data analysts to spend a majority of their time in analysing rather than in cleaning up or managing data.
 
 ## Installation

@@ -115,7 +115,7 @@ end
 
 """
 ```julia
-    install_msaccess(dataset; file::String="", table_name::String="", 
+    install_msaccess(dataset; file::String="", table_name::String="",
                 debug::Bool=false, use_cache::Bool=true)
 ```
 

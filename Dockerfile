@@ -18,7 +18,7 @@ RUN apt-get remove -y python && apt-get install -y python3  python3-pip curl
 RUN rm -f /usr/bin/python && ln -s /usr/bin/python3 /usr/bin/python
 RUN rm -f /usr/bin/pip && ln -s /usr/bin/pip3 /usr/bin/pip
 
-RUN echo "export PATH="/usr/bin/python:$PATH"" >> ~/.profile
+RUN echo "export PATH="$PATH"" >> ~/.profile
 RUN echo "export PYTHONPATH="/usr/bin/python:$PYTHONPATH"" >> ~/.profile
 
 RUN echo "export PGPASSFILE="~/.pgpass"" >> ~/.profile
@@ -28,6 +28,8 @@ RUN chmod 0644 ~/.profile
 RUN pip install git+https://git@github.com/weecology/retriever.git  && retriever ls
 RUN pip install psycopg2 pymysql
 
+# Install Postgis after Python is setup
+RUN apt-get install -y --force-yes postgis
 COPY . /Retriever.jl
 
 # Use entrypoint to run more configurations.
@@ -51,10 +53,9 @@ RUN export PGPASSFILE="~/.pgpass"
 RUN chmod 600 cli_tools/.pgpass
 RUN chmod 600 cli_tools/.my.cnf
 
-# Let image just check the version.
-# Can overwrite this in to run julia test/runtests.jl,
-# (Check travis file).
-# CMD ["bash", "-c", "julia test/runtests.jl"]
+# The image checks the version of julia by default.
+# Overwrite the default command when image is run as required
+# (Check travis file)
 
 CMD ["bash", "-c", "julia versioninfo()"]
 

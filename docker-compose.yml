@@ -4,6 +4,7 @@ services:
 
   mysqldb:
     image: mysql:5.7
+    container_name: mysqldb_container
     environment:
       MYSQL_USER: travis
       MYSQL_PASSWORD: Password12!
@@ -11,13 +12,17 @@ services:
       MYSQL_DATABASE: testdb
 
   pgdb:
-    image: postgres
+    image: mdillon/postgis:9.6-alpine
+    # When using postgres update postgis
+    # docker exec pgdb_container  update-postgis.sh
+    container_name: pgdb_container
     environment:
-      # Lets use docker-entrypoint-initdb.d/init-user-db.sh
-      # To set up user and Privileges
-      # POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: Password12!
-      POSTGRES_DB: testdb
+      - POSTGRES_DB=testdb
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASS=Password12!
+    # Keep data
+    volumes:
+      - ./cli_tools/:/tmp/postgis
 
   retrieverj:
     container_name: rej_image

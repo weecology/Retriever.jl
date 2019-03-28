@@ -49,14 +49,14 @@ end
 ```julia
 
     install_csv(dataset; table_name::String="", compile::Bool=false,
-        debug::Bool=false, use_cache::Bool=true)
+        data_dir=pwd(), debug::Bool=false, use_cache::Bool=true)
 ```
 
 Install Retriever scripts in csv format.
 """
 function install_csv(dataset; table_name::String="{db}_{table}",
-        debug::Bool=false, use_cache::Bool=true)
-    rt.install_csv(dataset, table_name, debug, use_cache)
+        data_dir=pwd(), debug::Bool=false, use_cache::Bool=true)
+    rt.install_csv(dataset, table_name, data_dir, debug, use_cache)
 end
 
 """
@@ -102,56 +102,56 @@ end
 """
 ```julia
     install_sqlite(dataset; file::String="", table_name::String="",
-                compile::Bool=false, debug::Bool=false,
+                data_dir=pwd(), debug::Bool=false,
                 use_cache::Bool=true)
 ```
 
 Install Retriever scripts in database.
 """
 function install_sqlite(dataset; file::String="", table_name::String="{db}.{table}",
-                debug::Bool=false, use_cache::Bool=true)
-    return rt.install_sqlite(dataset, file, table_name, debug, use_cache)
+                data_dir=pwd(), debug::Bool=false, use_cache::Bool=true)
+    return rt.install_sqlite(dataset, file, table_name, data_dir, debug, use_cache)
 end
 
 """
 ```julia
     install_msaccess(dataset; file::String="", table_name::String="",
-                debug::Bool=false, use_cache::Bool=true)
+                data_dir=pwd(), debug::Bool=false, use_cache::Bool=true)
 ```
 
 Install Retriever scripts in msacces.
 """
 function install_msaccess(dataset; file::String="", table_name::String="",
-                debug::Bool=false, use_cache::Bool=true)
-    rt.install_msaccess(dataset, file, table_name, debug, quite,
+                data_dir=pwd(), debug::Bool=false, use_cache::Bool=true)
+    rt.install_msaccess(dataset, file, table_name, data_dir, debug, quite,
                         use_cache)
 end
 
 """
 ```julia
-    install_json(dataset; table_name::String="", compile::Bool=false, debug::Bool=false, use_cache::Bool=true)
+    install_json(dataset; table_name::String="", data_dir=pwd(),
+    debug::Bool=false, use_cache::Bool=true)
 ```
 
 Install Retriever scripts in json format.
 """
 function install_json(dataset; table_name::String="{db}_{table}.json",
-                debug::Bool=false, use_cache::Bool=true)
-    rt.install_json(dataset, table_name, debug, use_cache)
+                data_dir=pwd(), debug::Bool=false, use_cache::Bool=true)
+    rt.install_json(dataset, table_name, data_dir, debug, use_cache)
 
 end
 
 """
 ```julia
-    install_xml(dataset; table_name::String="", compile::Bool=false,
-
+    install_xml(dataset; table_name::String="", compile::Bool=false, data_dir=pwd(), 
             debug::Bool=false, use_cache::Bool=true)
 ```
 
 Install Retriever scripts in xml format.
 """
 function install_xml(dataset; table_name::String="{db}_{table}.xml",
-                debug::Bool=false, use_cache::Bool=true)
-    rt.install_xml(dataset, table_name, debug, use_cache)
+                data_dir=pwd(), debug::Bool=false, use_cache::Bool=true)
+    rt.install_xml(dataset, table_name, data_dir, debug, use_cache)
 
 end
 

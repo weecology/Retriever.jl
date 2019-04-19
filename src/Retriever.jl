@@ -35,14 +35,14 @@ end
 """
 ```julia
     download(dataset; path::String="./", quite::Bool=false,
-                subdir::Bool=false, use_cache::Bool=false)
+                subdir::String="", debug::Bool=false, use_cache::Bool=false)
 ```
 
 Download scripts for retriever.
 """
 function download(dataset; path::String="./", quite::Bool=false,
-                subdir::Bool=false, use_cache::Bool=false)
-    rt.download(dataset, path, quite, subdir, use_cache)
+                subdir::String="", debug::Bool=false, use_cache::Bool=false)
+    rt.download(dataset, path, quite, subdir, debug, use_cache)
 end
 
 """

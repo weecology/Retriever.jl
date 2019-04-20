@@ -26,8 +26,8 @@ RUN chmod 0644 ~/.profile
 
 # Install retriever master
 RUN pip install git+https://git@github.com/weecology/retriever.git  && retriever ls
-RUN pip install psycopg2 pymysql
-
+RUN pip install pymysql
+RUN pip install psycopg2-binary -U
 # Install Postgis after Python is setup
 RUN apt-get install -y --force-yes postgis
 COPY . /Retriever.jl
@@ -44,6 +44,7 @@ WORKDIR /Retriever.jl
 RUN julia -e 'using InteractiveUtils; versioninfo()'
 RUN julia -e 'using Pkg;Pkg.update()'
 RUN julia -e 'using Pkg; Pkg.add("PyCall")'
+RUN julia -e 'Pkg.add("DocumenterTools")'
 RUN echo $PYTHON
 RUN echo $JULIA_LOAD_PATH
 

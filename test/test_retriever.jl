@@ -56,6 +56,17 @@ end
 function teardown()
 end
 
+function reset_reload_scripts()
+  # Test reset and reload_scripts
+  dataset = test_datasets[0]
+  Retriever.reset_retriever(dataset)
+  Retriever.reload_scripts()
+  @test dataset in rdataretriever::datasets() == FALSE
+  Retriever.get_updates()
+  Retriever.reload_scripts()
+  @test dataset in rdataretriever::datasets() == TRUE
+end
+
 function empty_files(path, ext)
     for (root, dirs, files) in walkdir(path)
         for file in files

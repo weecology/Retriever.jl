@@ -10,3 +10,4 @@ New features and Changes
   * Add dependency explanation to the docs
   * Install data into custom director using data_dir option
   * Download data into custom directory using sub_dir
+  * Add reload_scripts and reset_retriever

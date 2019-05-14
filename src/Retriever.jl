@@ -23,6 +23,28 @@ end
 
 """
 ```julia
+    reload_scripts()
+```
+
+Retriever reload scripts.
+"""
+function reload_scripts()
+    rt.reload_scripts()
+end
+
+"""
+```julia
+    reset_retriever(scope::String="all", ask_permission::Bool=true)
+```
+
+Retriever reset scripts or data or all.
+"""
+function reset_retriever(scope::String="all", ask_permission::Bool=true)
+    rt.reset_retriever(scope, ask_permission)
+end
+
+"""
+```julia
     dataset_names()
 ```
 

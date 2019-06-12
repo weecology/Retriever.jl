@@ -13,5 +13,7 @@ desc = "Julia wrapper for the Data Retriever software."
 version = "0.0.2"
 
 [deps]
-Pkg = "44cfe95a-1eb2-52ea-b672-e2afdf69b78f"
 PyCall = "438e738f-606a-5dbb-bf0a-cddfbfd45ab0"
+
+[compat]
+julia = "1"

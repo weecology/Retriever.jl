@@ -8,7 +8,7 @@ export install_csv, install_mysql, install_postgres
 export install_sqlite, install_msaccess, install_json
 export install_xml, reset_retriever
 
-@pyimport retriever as rt
+rt = pyimport("retriever")
 
 """
 ```julia

@@ -4,7 +4,7 @@ using PyCall
 using SQLite
 using MySQL
 
-@pyimport os
+os = pyimport("os")
 
 Retriever.check_for_updates()
 

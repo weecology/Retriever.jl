@@ -1,4 +1,4 @@
-FROM julia:0.7.0-stretch
+FROM julia:1.1.1-stretch
 
 MAINTAINER weecology "https://github.com/weecology/Retriever.jl"
 

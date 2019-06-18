@@ -1,6 +1,5 @@
 module Retriever
 
-using Pkg
 using PyCall
 
 export check_for_updates, dataset_names, download

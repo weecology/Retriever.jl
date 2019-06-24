@@ -177,15 +177,4 @@ function install_xml(dataset; table_name::String="{db}_{table}.xml",
 
 end
 
-"""
-```julia
-    reset_retriever(; scope::String="all")
-```
-
-Remove stored information on scripts, data, and connection
-"""
-function reset_retriever(; scope::String="all")
-    rt.reset_retriever(scope)
-end
-
 end # module

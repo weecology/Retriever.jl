@@ -1,4 +1,4 @@
-FROM julia:0.7.0-stretch
+FROM julia:1.1.1-stretch
 
 MAINTAINER weecology "https://github.com/weecology/Retriever.jl"
 
@@ -44,7 +44,7 @@ WORKDIR /Retriever.jl
 RUN julia -e 'using InteractiveUtils; versioninfo()'
 RUN julia -e 'using Pkg;Pkg.update()'
 RUN julia -e 'using Pkg; Pkg.add("PyCall")'
-RUN julia -e 'Pkg.add("DocumenterTools")'
+RUN julia -e 'using Pkg; Pkg.add("DocumenterTools")'
 RUN echo $PYTHON
 RUN echo $JULIA_LOAD_PATH
 

@@ -1,7 +1,6 @@
 push!(LOAD_PATH,"../src/Retriever.jl")
 include("../src/Retriever.jl")
 
-Pkg.add("Documenter")
 using Documenter, DocumenterTools
 
 makedocs(

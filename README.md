@@ -27,7 +27,7 @@ To use Retriever, you first need to [install Retriever](http://www.data-retrieve
 
 ### Database Management Systems
 
-Depending on the database management systems you wish to use, follow the `Setting up servers` [documentation of the retriever](https://github.com/weecology/retriever). You can change the credentials to suit your server settings.
+Depending on the database management systems you wish to use, follow the `Setting up servers` [documentation of the retriever](https://retriever.readthedocs.io/en/latest/developer.html#setting-up-servers). You can change the credentials to suit your server settings.
 
 The Retriever Julia package depends on a few Julia packages that will be installed automatically.
 

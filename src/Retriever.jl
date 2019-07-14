@@ -11,7 +11,7 @@ export install_xml, reset_retriever
 # See: https://github.com/JuliaPy/PyCall.jl#using-pycall-from-julia-modules
 const rt = PyNULL()
 function __init__()
-    copy!(rt, pyimport("retriever"))
+    copy!(rt, pyimport_conda("retriever", "retriever", "conda-forge"))
 end
 
 """

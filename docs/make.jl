@@ -28,6 +28,5 @@ deploydocs(
     repo = "github.com/weecology/Retriever.jl.git",
     target = "build",
     deps = nothing,
-    julia = "",
     make = nothing
 )

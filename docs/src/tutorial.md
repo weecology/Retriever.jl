@@ -7,17 +7,35 @@ The module has been created using ``PyCall`` hence all the functions are analogo
 
 ## Installation
 
-To use Retriever, you first need to [install Retriever](https://www.data-retriever.org), a core python package.
+To use Retriever, you first need to
+[install the core Python retriever package](https://www.data-retriever.org).
+The simplest way to do this is to let Julia install it into an isolated Python
+environment by setting an environmental variable prior to installation:
 
-To install Retriever using the Julia package manager
+```julia
+julia> ENV["PYTHON"]=""
+julia> Pkg.add("Retriever")
+```
 
+Alternatively you can install it yourself using either `conda` or `pip`
+(Python's package managers) which will also provide access to the package in
+Python and the command line interface.
+
+```bash
+conda install -c conda-forge retriever
+```
+
+```bash
+pip install retriever
+```
+
+Then install the Julia package *without* setting the environmental variable:
 
 ```julia
 
     julia> Pkg.add("Retriever")
 
 ```
-
 
 To install from Source, download or checkout the source from the [github page](https://github.com/weecology/Retriever.jl).
 

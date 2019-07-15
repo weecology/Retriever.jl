@@ -1,13 +1,13 @@
 # Data Retriever using Julia
 
-The wrapper module for [Data Retriever](http://data-retriever.org) has been implemented as [Retriever](https://github.com/weecology/Retriever.jl.git).
+The wrapper module for [Data Retriever](https://www.data-retriever.org) has been implemented as [Retriever](https://github.com/weecology/Retriever.jl.git).
 All the functions work and feel the same as the python Retriever module.
 The module has been created using ``PyCall`` hence all the functions are analogous to the functions of Retriever python module.
 
 
 ## Installation
 
-To use Retriever, you first need to [install Retriever](http://www.data-retriever.org), a core python package.
+To use Retriever, you first need to [install Retriever](https://www.data-retriever.org), a core python package.
 
 To install Retriever using the Julia package manager
 
@@ -19,7 +19,7 @@ To install Retriever using the Julia package manager
 ```
 
 
-To install from Source, download or checkout the source from the [github page](https://github.com/weecology/Retriever.jl.git).
+To install from Source, download or checkout the source from the [github page](https://github.com/weecology/Retriever.jl).
 
 Go to `Retriever.jl/src`. Run Julia.
 

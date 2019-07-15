@@ -9,7 +9,7 @@ This allows data analysts to spend a majority of their time in analysing rather 
 
 ## Installation
 
-To use Retriever, you first need to [install Retriever](http://www.data-retriever.org), a core python package.
+To use Retriever, you first need to [install Retriever](https://www.data-retriever.org), a core python package.
 
 To install Retriever using the Julia package manager
 
@@ -20,7 +20,7 @@ julia> Pkg.add("Retriever")
 
 ```
 
-To install from Source, download or checkout the source from the [github page](https://github.com/weecology/Retriever.jl.git).
+To install from Source, download or checkout the source from the [github page](https://github.com/weecology/Retriever.jl).
 
 Go to `Retriever.jl/src`. Run Julia.
 

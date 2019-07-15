@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><title>Developer&#39;s Guide · Retriever.jl</title><link href="https://cdnjs.cloudflare.com/ajax/libs/normalize/4.2.0/normalize.min.css" rel="stylesheet" type="text/css"/><link href="https://fonts.googleapis.com/css?family=Lato|Roboto+Mono" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css" rel="stylesheet" type="text/css"/><script>documenterBaseURL=".."</script><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.2.0/require.min.js" data-main="../assets/documenter.js"></script><script src="../siteinfo.js"></script><script src="../../versions.js"></script><link href="../assets/documenter.css" rel="stylesheet" type="text/css"/></head><body><nav class="toc"><a href="../index.html"><img class="logo" src="../assets/logo.png" alt="Retriever.jl logo"/></a><h1>Retriever.jl</h1><select id="version-selector" onChange="window.location.href=this.value" style="visibility: hidden"></select><form class="search" id="search-form" action="../search/"><input id="search-query" name="q" type="text" placeholder="Search docs"/></form><ul><li><a class="toctext" href="../intro/">Home</a></li><li><a class="toctext" href="../tutorial/">Installation Guide</a></li><li class="current"><a class="toctext" href>Developer&#39;s Guide</a><ul class="internal"><li class="toplevel"><a class="toctext" href="#ALL-required-packeges-1">ALL required packeges</a></li></ul></li><li><a class="toctext" href="../">Source</a></li><li><a class="toctext" href="../lib/public/">Command Documentation</a></li><li><a class="toctext" href="../CODE_OF_CONDUCT/">Code of Conduct</a></li></ul></nav><article id="docs"><header><nav><ul><li><a href>Developer&#39;s Guide</a></li></ul><a class="edit-page" href="https://github.com/weecology/Retriever.jl/blob/master/docs/src/developer.md"><span class="fa"></span> Edit on GitHub</a></nav><hr/><div id="topbar"><span>Developer&#39;s Guide</span><a class="fa fa-bars" href="#"></a></div></header><h1><a class="nav-anchor" id="Developer-documentation-for-Retriever-Julia-package-1" href="#Developer-documentation-for-Retriever-Julia-package-1">Developer documentation for Retriever Julia package</a></h1><p>Before you begin, make sure you have the retriever python package installed</p><h1><a class="nav-anchor" id="ALL-required-packeges-1" href="#ALL-required-packeges-1">ALL required packeges</a></h1><p>These packages will be installed once the Retriever.jl package is installed</p><p>Pycall Compat DocStringExtensions Documenter</p><h3><a class="nav-anchor" id="PyCall-1" href="#PyCall-1">PyCall</a></h3><p>Pycall julia is used to communicate with the retriever python package objects.</p><h3><a class="nav-anchor" id="Documenter-1" href="#Documenter-1">Documenter</a></h3><p>Documenter tool is used for building documentation To test the documentations locally, install the current source</p><pre><code class="language-Julia">
+julia&gt; include(&quot;src/Retriever.jl&quot;)
+</code></pre><h3><a class="nav-anchor" id="Tests-1" href="#Tests-1">Tests</a></h3><p>The tests are performed in two fold We test the python core functions, and then followed by the julia core functions.</p><h3><a class="nav-anchor" id="Register-and-Release-Retriever-1" href="#Register-and-Release-Retriever-1">Register and Release Retriever</a></h3><pre><code class="language-Julia">
+julia&gt; ENV[&quot;PYTHON&quot;]=&quot;Python path where retriever python package is installed&quot;
+julia&gt; Pkg.build(&quot;PyCall&quot;)
+julia&gt; Pkg.add(&quot;PyCall&quot;)
+julia&gt; Pkg.test(&quot;Retriever&quot;)
+julia&gt; Pkg.update()
+julia&gt; Pkg.add(&quot;PkgDev&quot;)
+julia&gt; using  PkgDev
+</code></pre><pre><code class="language-Julia">
+julia&gt; PkgDev.register(&quot;Retriever&quot;)
+INFO: Registering Retriever at https://github.com/weecology/Retriever.jl.git
+INFO: Committing METADATA for Retriever
+</code></pre><pre><code class="language-Julia">
+julia&gt; PkgDev.tag(&quot;Retriever&quot;)
+INFO: Tagging Retriever v0.0.1
+</code></pre><pre><code class="language-Julia">
+julia&gt; PkgDev.config()
+PkgDev.jl configuration:
+User name: provide git user name
+User email: provide git associated email
+Enter GitHub user [Defualt name]:
+Do you want to change this configuration? [N]:N
+</code></pre><pre><code class="language-Shell">
+julia&gt; PkgDev.publish()
+INFO: Validating METADATA
+INFO: Creating a personal access token for Julia Package Manager on GitHub.
+	You will be asked to provide credentials to your GitHub account.
+
+...Git Credential authentication
+
+INFO: Pushing Retriever permanent tags: v0.0.1
+INFO: Submitting METADATA changes
+INFO: Forking JuliaLang/METADATA.jl to henrykironde
+INFO: Pushing changes as branch pull-request/ceea745c
+INFO: To create a pull-request, open:
+
+  https://[link to the Branch created]
+</code></pre><footer><hr/><a class="previous" href="../tutorial/"><span class="direction">Previous</span><span class="title">Installation Guide</span></a><a class="next" href="../"><span class="direction">Next</span><span class="title">Source</span></a></footer></article></body></html>

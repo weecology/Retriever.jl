@@ -10,7 +10,7 @@ authors = [
 keywords = ["Data management", "Data packages", "GIS", "Data processing"]
 license = "MIT"
 desc = "Julia wrapper for the Data Retriever software."
-version = "0.0.2"
+version = "0.1.0"
 
 [deps]
 PyCall = "438e738f-606a-5dbb-bf0a-cddfbfd45ab0"

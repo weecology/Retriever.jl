@@ -61,10 +61,10 @@ function reset_reload_scripts()
   dataset = test_datasets[0]
   Retriever.reset_retriever(dataset)
   Retriever.reload_scripts()
-  @test dataset in rdataretriever::datasets() == FALSE
+  @test dataset in rdataretriever::datasets()["offline"] == FALSE
   Retriever.get_updates()
   Retriever.reload_scripts()
-  @test dataset in rdataretriever::datasets() == TRUE
+  @test dataset in rdataretriever::datasets()["offline"] == TRUE
 end
 
 function empty_files(path, ext)

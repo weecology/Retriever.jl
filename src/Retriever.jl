@@ -2,6 +2,9 @@ module Retriever
 
 using PyCall
 
+export commit, commit_log
+export get_dataset_names_upstream
+export get_script_upstream
 export check_for_updates, dataset_names, download
 export install_csv, install_mysql, install_postgres
 export install_sqlite, install_msaccess, install_json
@@ -16,6 +19,29 @@ end
 
 """
 ```julia
+    commit(dataset, commit_message::String="", path::String="", quite::Bool=false)
+```
+
+Commit Retriever dataset.
+"""
+function commit(dataset, commit_message::String="", path::String="", quite::Bool=false)
+    rt.commit(dataset, commit_message, path, quite)
+    println("Successfully committed.")
+end
+
+"""
+```julia
+    commit_log(dataset)
+```
+
+Get the commit log for a dataset.
+"""
+function commit_log(dataset)
+    rt.commit_log(dataset)
+end
+
+"""
+```julia
     check_for_updates()
 ```
 
@@ -23,6 +49,28 @@ Check Retriever scripts for updates.
 """
 function check_for_updates()
     rt.check_for_updates()
+end
+
+"""
+```julia
+    get_dataset_names_upstream(keywords::String="", licenses::String="", repo::String="")
+```
+
+Retriever get dataset names upstream scripts.
+"""
+function get_dataset_names_upstream(keywords::String="", licenses::String="", repo::String="")
+    rt.get_dataset_names_upstream(keywords, licenses, repo)
+end
+
+"""
+```julia
+    get_script_upstream(dataset, repo::String="")
+```
+
+Retriever get script upstream scripts.
+"""
+function get_script_upstream(dataset, repo::String="")
+    rt.get_script_upstream(dataset, repo)
 end
 
 """

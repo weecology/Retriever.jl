@@ -7,7 +7,7 @@ export install_csv, install_mysql, install_postgres
 export install_sqlite, install_msaccess, install_json
 export install_xml, reset_retriever
 
-# Create retriever as rt while properly handling precompilation
+# Create retriever as rt while properly handling precompilation, check
 # See: https://github.com/JuliaPy/PyCall.jl#using-pycall-from-julia-modules
 const rt = PyNULL()
 function __init__()

@@ -56,7 +56,7 @@ end
     get_dataset_names_upstream(keywords::String="", licenses::String="", repo::String="")
 ```
 
-Retriever get dataset names upstream scripts.
+Get dataset names upstream scripts.
 """
 function get_dataset_names_upstream(keywords::String="", licenses::String="", repo::String="")
     rt.get_dataset_names_upstream(keywords, licenses, repo)
@@ -67,7 +67,7 @@ end
     get_script_upstream(dataset, repo::String="")
 ```
 
-Retriever get script upstream scripts.
+Get upstream retriever-recipe's scripts.
 """
 function get_script_upstream(dataset, repo::String="")
     rt.get_script_upstream(dataset, repo)

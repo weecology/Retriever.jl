@@ -51,9 +51,10 @@ Go to `Retriever.jl/src`. Run Julia.
 
 ## Tutorial
 
-The Retriever has both build-in and recipe scripts.
-The Retriever's build-in scripts as part of the installation.
-The Retriever recipes are 3rd party scripts(datasets) from data package owners.
+The Retriever has both built-in and recipe scripts.
+The Retriever's built-in scripts as part of the installation.
+Each recipe provides the information to retriever on how to install a dataset. 
+Recipes are contributed by a variety of users including data owners, data users, and the Retriever maintainers.
 
 Get list of all the available datasets in Retriever.
 
@@ -85,7 +86,7 @@ Updating scripts to the latest version.
 
 ```
 
-Get dataset names upstream retriever recipe scripts.
+Get list of datasets based on searching by keywords and licenses..
 
 ```julia
 
@@ -100,7 +101,7 @@ Get dataset names upstream retriever recipe scripts.
 
 ```
 
-Get script upstream retriever recipe scripts..
+Get the recipe for a specific dataset.
 
 ```julia
 

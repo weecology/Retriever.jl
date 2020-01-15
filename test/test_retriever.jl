@@ -59,12 +59,12 @@ end
 function reset_reload_scripts()
   # Test reset and reload_scripts
   dataset = test_datasets[0]
-  Retriever.reset_retriever(dataset)
+  Retriever.reset_retriever(dataset, ask_permission=false)
   Retriever.reload_scripts()
-  @test dataset in rdataretriever::datasets()["offline"] == FALSE
+  @test dataset in rdataretriever::datasets()["offline"] == false
   Retriever.get_updates()
   Retriever.reload_scripts()
-  @test dataset in rdataretriever::datasets()["offline"] == TRUE
+  @test dataset in rdataretriever::datasets()["offline"] == true
 end
 
 function empty_files(path, ext)
@@ -77,6 +77,17 @@ function empty_files(path, ext)
             end
         end
     end
+end
+
+function dataset_name_upstream()
+  # Test get_dataset_names_upstream using a list of keywords or licenses
+  Retriever.reset_retriever(scope ="all", ask_permission=false)
+  license_datasets = Retriever.get_dataset_names_upstream(licenses=['CC0-1.0'])
+  @test 'bird-size' in license_datasets == true
+  keyword_datasets = Retriever.get_dataset_names_upstream(keywords=['plants'])
+  @test 'biodiversity-response' in keyword_datasets == true
+  datasets = Retriever.get_dataset_names_upstream()
+  @test 'portal' in datasets == true
 end
 
 function install_csv_engine(data_arg)

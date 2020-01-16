@@ -51,6 +51,11 @@ Go to `Retriever.jl/src`. Run Julia.
 
 ## Tutorial
 
+The Retriever has both built-in and recipe scripts.
+The Retriever's built-in scripts as part of the installation.
+Each recipe provides the information to retriever on how to install a dataset. 
+Recipes are contributed by a variety of users including data owners, data users, and the Retriever maintainers.
+
 Get list of all the available datasets in Retriever.
 
 ```julia
@@ -81,6 +86,51 @@ Updating scripts to the latest version.
 
 ```
 
+Get list of datasets based on searching by keywords and licenses..
+
+```julia
+
+    """ Function Definition """
+    function get_dataset_names_upstream(keywords::String="", licenses::String="", repo::String="")
+
+```
+
+```julia
+
+    julia> Retriever.get_dataset_names_upstream("birds data")
+
+```
+
+Get the recipe for a specific dataset.
+
+```julia
+
+    """ Function Definition """
+    function get_script_upstream(dataset, repo::String="")
+
+```
+
+```julia
+
+    julia> Retriever.get_script_upstream("fia-florida")
+
+```
+
+Reload scripts.
+
+```julia
+
+    """ Function Definition """
+    function reload_scripts()
+
+```
+
+```julia
+
+    julia> Retriever.reload_scripts()
+
+```
+
 Delete information stored by Retriever which could be scripts, connections or data.
 
 ```julia
@@ -106,7 +156,6 @@ To download datasets the ``download`` function can be used.
     """ Function Definition """
     function download(dataset; path::AbstractString="./", quite::Bool=false,
                 subdir::Bool=false, use_cache::Bool=false, debug::Bool=false)
-
 
 ```
 
@@ -162,5 +211,33 @@ Installing scripts into engines.
     julia> Retriever.install_msaccess("iris")
     julia> Retriever.install_json("iris")
     julia> Retriever.install_xml("iris")
+
+```
+
+## Retriever Provenance
+
+
+Retriever allows committing of datasets and installation of the committed dataset into the database of your choice at a
+later date.
+This ensures that the previous outputs/results can be produced easily.
+
+ 
+Retriever supports committing of a dataset into a compressed archive.
+
+```julia
+
+    julia> Retriever.commit("portal")
+    julia> Retriever.commit('abalone-age', 'First chapter data version 1')
+    julia> Retriever.commit_log("portal")
+
+```
+
+You can install committed datasets by using the hash-value or by providing the path of the compressed archive.
+Installation using hash-value is supported only for datasets stored in the provenance directory.
+
+```julia
+
+    julia> Retriever.install_sqlite('abalone-age-02ee77.zip')
+    julia> Retriever.install_sqlite('abalone-age', '02ee77')
 
 ```

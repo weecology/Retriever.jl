@@ -2,6 +2,9 @@ module Retriever
 
 using PyCall
 
+export commit, commit_log
+export get_dataset_names_upstream
+export get_script_upstream
 export check_for_updates, dataset_names, download
 export install_csv, install_mysql, install_postgres
 export install_sqlite, install_msaccess, install_json
@@ -16,6 +19,29 @@ end
 
 """
 ```julia
+    commit(dataset, commit_message::String="", path::String="", quiet::Bool=false)
+```
+
+Commit Retriever dataset.
+"""
+function commit(dataset, commit_message::String="", path::String="", quiet::Bool=false)
+    rt.commit(dataset, commit_message, path, quiet)
+    println("Successfully committed.")
+end
+
+"""
+```julia
+    commit_log(dataset)
+```
+
+Get the commit log for a dataset.
+"""
+function commit_log(dataset)
+    rt.commit_log(dataset)
+end
+
+"""
+```julia
     check_for_updates()
 ```
 
@@ -23,6 +49,28 @@ Check Retriever scripts for updates.
 """
 function check_for_updates()
     rt.check_for_updates()
+end
+
+"""
+```julia
+    get_dataset_names_upstream(keywords::Array{String,1}=String[], licenses::Array{String,1}=String[], repo::String="")
+```
+
+Get dataset names upstream scripts.
+"""
+function get_dataset_names_upstream(keywords::Array{String,1}=String[], licenses::Array{String,1}=String[], repo::String="")
+    rt.get_dataset_names_upstream(keywords, licenses, repo)
+end
+
+"""
+```julia
+    get_script_upstream(dataset, repo::String="")
+```
+
+Get upstream retriever-recipe's scripts.
+"""
+function get_script_upstream(dataset, repo::String="")
+    rt.get_script_upstream(dataset, repo)
 end
 
 """
@@ -60,15 +108,15 @@ end
 
 """
 ```julia
-    download(dataset; path::String="./", quite::Bool=false,
+    download(dataset; path::String="./", quiet::Bool=false,
                 subdir::String="", debug::Bool=false, use_cache::Bool=false)
 ```
 
 Download scripts for retriever.
 """
-function download(dataset; path::String="./", quite::Bool=false,
+function download(dataset; path::String="./", quiet::Bool=false,
                 subdir::String="", debug::Bool=false, use_cache::Bool=false)
-    rt.download(dataset, path, quite, subdir, debug, use_cache)
+    rt.download(dataset, path, quiet, subdir, debug, use_cache)
 end
 
 """
@@ -90,7 +138,7 @@ end
     install_mysql(dataset; user::String="root",
                 password::String="", host::String="localhost",
                 port::Int=3306, database_name::String="", table_name::String="",
-                compile::Bool=false, debug::Bool=false, quite::Bool=false,
+                compile::Bool=false, debug::Bool=false, quiet::Bool=false,
                 use_cache::Bool=true)
 ```
 
@@ -149,7 +197,7 @@ Install Retriever scripts in msacces.
 """
 function install_msaccess(dataset; file::String="", table_name::String="",
                 data_dir=pwd(), debug::Bool=false, use_cache::Bool=true)
-    rt.install_msaccess(dataset, file, table_name, data_dir, debug, quite,
+    rt.install_msaccess(dataset, file, table_name, data_dir, debug, quiet,
                         use_cache)
 end
 

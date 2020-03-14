@@ -4,6 +4,7 @@ using PyCall
 
 export commit, commit_log
 export get_dataset_names_upstream
+export get_script_citation
 export get_script_upstream
 export check_for_updates, dataset_names, download
 export install_csv, install_mysql, install_postgres
@@ -49,6 +50,17 @@ Check Retriever scripts for updates.
 """
 function check_for_updates()
     rt.check_for_updates()
+end
+
+"""
+```julia
+    get_script_citation(repo::String="")
+```
+
+Get citation for the data retriever or scripts.
+"""
+function get_script_citation(dataset::String="")
+    rt.get_script_citation(dataset)
 end
 
 """

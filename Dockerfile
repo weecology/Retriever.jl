@@ -6,7 +6,7 @@ MAINTAINER weecology "https://github.com/weecology/Retriever.jl"
 RUN apt-get update
 RUN apt-get install -y --force-yes build-essential wget git
 # postgresql-client for local tests and command line connections (psql)
-RUN apt-get install -y --force-yes postgresql-client mysql-client locales locales-all
+RUN apt-get install -y --force-yes postgresql-client mariadb-client locales locales-all
 
 # Set encoding
 ENV LC_ALL en_US.UTF-8

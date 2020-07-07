@@ -10,6 +10,8 @@ export check_for_updates, dataset_names, download
 export install_csv, install_mysql, install_postgres
 export install_sqlite, install_msaccess, install_json
 export install_xml, reset_retriever
+export reload_scripts
+export data_retriever_version
 
 # Create retriever as rt while properly handling precompilation
 # See: https://github.com/JuliaPy/PyCall.jl#using-pycall-from-julia-modules
@@ -61,6 +63,28 @@ Get citation for the data retriever or scripts.
 """
 function get_script_citation(dataset::String="")
     rt.get_script_citation(dataset)
+end
+
+"""
+```julia
+    reload_scripts()
+```
+
+Reload scripts Retriever scripts.
+"""
+function reload_scripts()
+    rt.reload_scripts()
+end
+
+"""
+```julia
+    data_retriever_version()
+```
+
+Get Data Retriever version.
+"""
+function data_retriever_version()
+    rt.__version__
 end
 
 """

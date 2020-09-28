@@ -23,7 +23,7 @@ This allows data analysts to spend a majority of their time in analysing rather 
 
 ## Installation
 
-To use Retriever, you first need to [install Retriever](http://www.data-retriever.org), a core python package.
+To use Retriever, you first need to [install Retriever](https://github.com/weecology/retriever), a core python package.
 
 ### Database Management Systems
 

@@ -115,6 +115,19 @@ end
 
 """
 ```julia
+    install_hdf5(dataset, file::String="hdf5.h5", table_name='{db}_{table}',
+                data_dir=pwd(), debug::Bool=false, use_cache::Bool=true)
+```
+
+Install Retriever scripts in database.
+"""
+function install_hdf5(dataset, file::String="hdf5.h5", table_name='{db}_{table}',
+                data_dir=pwd(), debug::Bool=false, use_cache::Bool=true)
+    return rt.install_hdf5(dataset, file, table_name, data_dir, debug, use_cache)
+end
+
+"""
+```julia
     install_msaccess(dataset; file::String="", table_name::String="",
                 data_dir=pwd(), debug::Bool=false, use_cache::Bool=true)
 ```

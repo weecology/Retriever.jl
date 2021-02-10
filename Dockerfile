@@ -24,7 +24,7 @@ RUN echo "export PYTHONPATH="/usr/bin/python:$PYTHONPATH"" >> ~/.profile
 RUN echo "export PGPASSFILE="~/.pgpass"" >> ~/.profile
 RUN chmod 0644 ~/.profile
 
-# Install retriever master
+# Install retriever main
 RUN pip install git+https://git@github.com/weecology/retriever.git && retriever ls
 RUN pip install pymysql
 RUN pip install psycopg2-binary -U

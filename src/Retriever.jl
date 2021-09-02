@@ -11,6 +11,9 @@ export install_csv, install_mysql, install_postgres
 export install_sqlite, install_msaccess, install_json
 export install_xml, reset_retriever
 export reload_scripts
+export update_rdataset_catalog, create_rdataset
+export update_rdataset_contents, update_rdataset_script
+export get_rdataset_names, display_all_rdataset_names
 export data_retriever_version
 
 # Create retriever as rt while properly handling precompilation
@@ -263,6 +266,72 @@ function install_xml(dataset; table_name::String="{db}_{table}.xml",
                 data_dir=pwd(), debug::Bool=false, use_cache::Bool=true)
     rt.install_xml(dataset, table_name, data_dir, debug, use_cache)
 
+end
+
+"""
+```julia
+    update_rdataset_catalog(test::Bool=false)
+```
+
+Updates the datasets_url.json from the github repo
+"""
+function update_rdataset_catalog(test::Bool=false)
+    rt.update_rdataset_catalog(test)
+end
+
+"""
+```julia
+create_rdataset(engine, package::String, dataset_name::String, script_path::Union{String, Nothing}=nothing)
+```
+
+Download files for RDatasets to the raw data directory
+"""
+function create_rdataset(engine, package::String, dataset_name::String, script_path::Union{String, Nothing}=nothing)
+    rt.create_rdataset(engine, package, dataset_name, script_path)
+end
+
+"""
+```julia
+    update_rdataset_contents(data_obj::Dict{String, String}, package::String, dataset_name::String, json_file::Dict{String, String})
+```
+
+Update the contents of json script
+"""
+function update_rdataset_contents(data_obj::Dict{String, String}, package::String, dataset_name::String, json_file::Dict{String, String})
+    rt.update_rdataset_contents(data_obj, package, dataset_name, json_file)
+end
+
+"""
+```julia
+    update_rdataset_script(data_obj, dataset_name, package, script_path)
+```
+
+Renames and updates the RDataset script
+"""
+function update_rdataset_script(data_obj::Dict{String, String}, dataset_name::String, package::String, script_path::String)
+    rt.update_rdataset_script(data_obj, dataset_name, package, script_path)
+end
+
+"""
+```julia
+    display_all_rdataset_names(package_name::Array{String,1}=String[])
+```
+
+Displays the list of rdataset names present in the package(s) provided
+"""
+function display_all_rdataset_names(package_name::Array{String,1}=String[])
+    rt.display_all_rdataset_names(package_name)
+end
+
+"""
+```julia
+    get_rdataset_names()
+```
+
+Returns a list of all the available RDataset names present
+"""
+function get_rdataset_names()
+    rt.get_rdataset_names()
 end
 
 end # module

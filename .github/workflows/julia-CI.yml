@@ -154,8 +154,9 @@ jobs:
           file: lcov.info
 
       - name: Documentation
-      # if: github.event_name != 'pull_request' && matrix.julia-version == "1"
-      if: ${{ github.event_name == 'pull_request' && matrix.python-version != '3.7' && matrix.os == 'ubuntu-latest' && matrix.julia-version == '1'}}
+#       if: github.event_name != 'pull_request' && matrix.julia-version == "1":
+#       # if: github.event_name != 'pull_request' && matrix.julia-version == "1"
+#       if: ${{ github.event_name == 'pull_request' && matrix.python-version != '3.7' && matrix.os == 'ubuntu-latest' && matrix.julia-version == '1' }}
       - run: |
           julia --project=docs -e '
             using Pkg

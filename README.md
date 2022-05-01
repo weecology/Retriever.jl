@@ -33,7 +33,7 @@ The Retriever Julia package depends on a few Julia packages that will be install
 
 Ensure that Pycall is using the same Python path where the retriever Python package is installed.
 
-You can change that path to a desired path as below.
+You can change that path to a desired path as below....
 
 ```julia
 

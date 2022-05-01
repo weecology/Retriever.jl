@@ -1,0 +1,186 @@
+name: Julia CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  
+  build:
+    name: Julia ${{ matrix.version }} - ${{ matrix.os }} - ${{ matrix.arch }} - ${{ github.event_name }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        version:
+          - '1.0' # lowest supported version
+          - '1'   # last released version
+          - '1.0.5'
+        os:
+          - ubuntu-latest
+          # - macos-latest
+          # - windows-latest
+        arch:
+          - x64
+        python-version: [3.7, 3.8]
+        env:
+          LC_ALL : en_US.UTF-8
+          ENV LANG : en_US.UTF-8
+          ENV LANGUAGE : en_US.UTF-8
+          TZ: America/New_York
+          DEBIAN_FRONTEND: noninteractive
+          PYTHON: python${{ matrix.python-version }}
+    # runs-on: ubuntu-latest
+    # strategy:
+    #   matrix:
+    #     python-version: [3.7, 3.8]
+    
+    services:
+      mysqldb_retriever:
+        image: mysql:5.7
+        env:
+          MYSQL_USER: travis
+          MYSQL_PASSWORD: Password12!
+          MYSQL_ROOT_PASSWORD: Password12!
+          MYSQL_DATABASE: testdb_retriever
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=3
+
+    steps:
+      - uses: actions/checkout@v2
+ 
+      - name: Set up Postgresql with Postgis
+        uses: huaxk/postgis-action@v1
+        with:
+          postgresql version: '11'
+          postgresql user: 'postgres'
+          postgresql password: 'Password12!'
+          postgresql db: 'testdb_retriever'
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v2
+        with:
+          python-version: ${{ matrix.python-version }}
+          architecture: ${{ matrix.architecture }}
+      
+      - name: Install dependencies
+        # env:
+        #   LC_ALL : en_US.UTF-8
+        #   ENV LANG : en_US.UTF-8
+        #   ENV LANGUAGE : en_US.UTF-8
+        #   TZ: America/New_York
+        #   DEBIAN_FRONTEND: noninteractive
+        #   PYTHON: python${{ matrix.python-version }}
+        run: |
+          sudo apt-add-repository ppa:ubuntugis/ubuntugis-unstable
+          sudo apt-get update && sudo apt-get install -y --no-install-recommends apt-utils
+          sudo apt-get install -y --force-yes tzdata
+          sudo apt-get install -y --force-yes build-essential wget git locales locales-all > /dev/null
+          sudo apt-get install -y --force-yes libpq-dev
+          sudo apt-get install libgdal-dev
+          sudo apt-get install gdal-bin
+          export CPLUS_INCLUDE_PATH=/usr/include/gdal
+          export C_INCLUDE_PATH=/usr/include/gdal
+          pip install GDAL==3.2.3 
+          sudo apt-get install -y --force-yes postgis
+          
+      - name: Setup paths and files
+        run : |
+          cd ..
+          # chmod 0755 retriever/cli_tools/entrypoint.sh
+          chmod 0755 Retriever.jl/cli_tools/entrypoint.sh
+
+          # sh retriever/cli_tools/entrypoint.sh
+          sh Retriever.jl/cli_tools/entrypoint.sh
+          echo "export PATH="/usr/bin/python:$PATH"" >> ~/.profile
+          echo "export PYTHONPATH="/usr/bin/python:$PYTHONPATH"" >> ~/.profile
+          echo "export PGPASSFILE="~/.pgpass"" >> ~/.profile
+          chmod 0644 ~/.profile
+
+
+      - name: PostGIS check version
+        run : |
+          export PGPASSWORD='Password12!'
+          psql -d testdb_retriever -U postgres -h localhost -p 5432 -c "SELECT PostGIS_version();"
+
+      - name: Install python dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install flake8 pytest yapf codecov pytest-cov pytest-xdist openpyxl -U
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+      
+      - name: Install retriever
+        run: |
+          pip install git+https://git@github.com/weecology/retriever.git
+          export PGPASSFILE="~/.pgpass"
+          chmod 600 ~/.pgpass
+          chmod 600 ~/.my.cnf
+
+
+      # - name: Test AOT
+      #   Julia ${{ matrix.julia-version }}
+      #   Python ${{ matrix.python-version }}
+      #   ${{ matrix.os }} ${{ matrix.architecture }}
+
+      - name: Setup julia
+        uses: julia-actions/setup-julia@v1
+        with:
+          version: ${{ matrix.julia-version }}
+          arch: ${{ matrix.architecture }}
+          show-versioninfo: true
+
+      - uses: actions/cache@v1
+        env:
+          cache-name: cache-artifacts
+        with:
+          path: ~/.julia/artifacts
+          key: ${{ runner.os }}-test-${{ env.cache-name }}-${{ hashFiles('**/Project.toml') }}
+          restore-keys: |
+            ${{ runner.os }}-test-${{ env.cache-name }}-
+            ${{ runner.os }}-test-
+            ${{ runner.os }}-
+      - uses: julia-actions/julia-buildpkg@v1
+      - uses: julia-actions/julia-runtest@v1
+      - uses: julia-actions/julia-processcoverage@v1
+      - uses: codecov/codecov-action@v1
+        with:
+          file: lcov.info
+
+      - name: Documentation
+      # if: github.event_name != 'pull_request' && matrix.julia-version == "1"
+      if: ${{ github.event_name == 'pull_request' && matrix.python-version != '3.7' && matrix.os == 'ubuntu-latest' && matrix.julia-version == '1'}}
+      - run: |
+          julia --project=docs -e '
+            using Pkg
+            Pkg.add("Pycall")
+            Pkg.develop(PackageSpec(path=pwd()))
+            Pkg.instantiate()'
+      - run: |
+          julia --project=docs -e '
+            using Documenter: doctest
+            using Retriever
+            doctest(Retriever)'
+      - run: julia --project=docs docs/make.jl
+        # env:
+        #   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        #   DOCUMENTER_KEY: ${{ secrets.DOCUMENTER_KEY }}
+      # - name: Run pytest
+      #   run: |
+      #     pytest -v -k "not test_geojson2csv  and not test_mysql_integration" --cov=./retriever --cov-report=xml
+      #     flake8 --ignore=E501,W503,E402,F401,F403,E722,F841,W504 retriever --max-line-length=90 2>&1
+      #     yapf -d --recursive ./retriever/ --style=.style.yapf 2>&1
+
+      # - name: Upload coverage to Codecov
+      #   if: matrix.python-version == 3.8
+      #   uses: codecov/codecov-action@v1
+      #   with:
+      #     token: ${{ secrets.CODECOV_TOKEN }}
+
+              

@@ -7,10 +7,8 @@
 [docs-stable-url]: https://weecology.github.io/Retriever.jl/stable/
 [docs-latest-img]: https://img.shields.io/badge/docs-latest-blue.svg
 [docs-latest-url]: https://weecology.github.io/Retriever.jl/dev/
-[travis-img]: https://travis-ci.org/weecology/Retriever.jl.svg?branch=master
-[travis-url]: https://travis-ci.org/weecology/Retriever.jl
 [license-img]: http://img.shields.io/badge/license-MIT-blue.svg
-[license-url]: https://raw.githubusercontent.com/weecology/Retriever.jl/master/LICENSE
+[license-url]: https://raw.githubusercontent.com/weecology/Retriever.jl/main/LICENSE
 
 # Retriever
 

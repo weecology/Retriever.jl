@@ -1,16 +1,16 @@
 
 | **Documentation**                                                               | **PackageEvaluator**                                                                            | **Build Status**                                                                                |
 |:-------------------------------------------------------------------------------:|:-----------------------------------------------------------------------------------------------:|:-----------------------------------------------------------------------------------------------:|
-| [![][docs-stable-img]][docs-stable-url] [![][docs-latest-img]][docs-latest-url] |[![][license-img]][license-url]   | [![][travis-img]][travis-url] |
+| [![][docs-stable-img]][docs-stable-url] [![][docs-latest-img]][docs-latest-url] |[![][license-img]][license-url]   | [![][GitHub-Actions-img]][GitHub-Actions-url] |
 
 [docs-stable-img]: https://img.shields.io/badge/docs-stable-green.svg
 [docs-stable-url]: https://weecology.github.io/Retriever.jl/stable/
 [docs-latest-img]: https://img.shields.io/badge/docs-latest-blue.svg
 [docs-latest-url]: https://weecology.github.io/Retriever.jl/dev/
-[travis-img]: https://travis-ci.org/weecology/Retriever.jl.svg?branch=master
-[travis-url]: https://travis-ci.org/weecology/Retriever.jl
+[GitHub-Actions-img]: https://github.com/weecology/Retriever.jl/actions/workflows/CI.yml/badge.svg
+[GitHub-Actions-url]: https://github.com/weecology/Retriever.jl/actions/workflows/CI.yml
 [license-img]: http://img.shields.io/badge/license-MIT-blue.svg
-[license-url]: https://raw.githubusercontent.com/weecology/Retriever.jl/master/LICENSE
+[license-url]: https://raw.githubusercontent.com/weecology/Retriever.jl/main/LICENSE
 
 # Retriever
 
@@ -23,13 +23,14 @@ This allows data analysts to spend a majority of their time in analysing rather 
 
 ## Installation
 
-To use Retriever, you first need to [install Retriever](https://github.com/weecology/retriever), a core python package.
+### Deps
+Python 3.7+
+[PyCall](https://github.com/JuliaPy/PyCall.jl)
+[Pkg](https://pkgdocs.julialang.org/v1/getting-started/) is needed and you can add packages using the `add` command or the `dev` command.
+	pkg> add "git@github.com:JuliaPy/PyCall.jl.git
+Julia 1.5+ is recommended
 
-### Database Management Systems
-
-Depending on the database management systems you wish to use, follow the `Setting up servers` [documentation of the retriever](https://retriever.readthedocs.io/en/latest/developer.html#setting-up-servers). You can change the credentials to suit your server settings.
-
-The Retriever Julia package depends on a few Julia packages that will be installed automatically.
+The Retriever.jl depends on a few Julia packages that will be installed automatically.
 
 Ensure that Pycall is using the same Python path where the retriever Python package is installed.
 
@@ -43,7 +44,21 @@ Pkg.build("PyCall")
 
 ```
 
-To install Retriever Julia package
+Install the core Python [retriever](https://github.com/weecology/retriever) package.
+In case your Python path is set, You can use `Pip install retriever` or
+use PyCall to install the Python
+
+```julia
+
+# From release
+packages = retriever
+julia> run(`$(PyCall.pyprogramname) -m pip install --user -- $packages`)
+# Or from current dev branch
+julia> run(`$(PyCall.pyprogramname) -m pip install --user -- git+https://git@github.com/weecology/retriever.git`)
+
+```
+
+install Retriever Julia package
 
 ```julia
 
@@ -51,7 +66,9 @@ julia> Pkg.add("Retriever")
 
 ```
 
-To install from Source, download or checkout the source from the [github page](https://github.com/weecology/Retriever.jl.git).
+### Install from local Source
+
+Download or checkout the source from the [github page](https://github.com/weecology/Retriever.jl.git).
 
 Go to `Retriever.jl` directory and. Run Julia.
 
@@ -60,6 +77,22 @@ Go to `Retriever.jl` directory and. Run Julia.
 julia> include("src/Retriever.jl")
 
 ```
+
+Or use the [Pkg REPL](https://pkgdocs.julialang.org/v1/getting-started/)
+
+
+```Julia
+
+pkg> add PyCall
+pkg> activate .
+using Retriever
+
+```
+
+### Database Management Systems
+
+Depending on the database management systems you wish to use, follow the `Setting up servers` [documentation of the retriever](https://retriever.readthedocs.io/en/latest/developer.html#setting-up-servers). You can change the credentials to suit your server settings.
+
 
 ## Example of installing the Datasets
 
@@ -116,7 +149,7 @@ To run the image interactively
 
 To test docs in docker
 
-` docker-compose run --service-ports retrieverj bash -c "cd docs &&  julia make.jl"`
+` docker-compose run --service-ports retrieverj bash -c "cd docs && julia make.jl"`
 
 Acknowledgments
 ---------------

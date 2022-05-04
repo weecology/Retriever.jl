@@ -1,3 +1,19 @@
+Retriever v2.0.0 Release Notes
+==============================
+
+New features and Changes
+------------------------
+
+Remove Travis and use GitHub actions
+Change default branch from master to main
+Update Kaggle API function
+Added tidycensus dataset
+Add support for clipping images
+Add Socrata API
+Added RDatasets API 
+Add auto publish using CI 
+
+
 Retriever v1.0.0 Release Notes
 ==============================
 

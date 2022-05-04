@@ -1,4 +1,9 @@
-julia 0.6
-PyCall
+julia 1.5
+DocStringExtensions
 Documenter
-DocumenterTools
+JuliaFormatter
+MySQL
+Pkg
+PyCall
+SQLite
+Test

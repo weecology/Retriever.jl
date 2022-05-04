@@ -14,21 +14,26 @@
 
 # Retriever
 
-Julia wrapper for the Data Retriever software.
+The Julia wrapper for the Data Retriever software.
 
-Data Retriever automates the tasks of finding, downloading,
+The Data Retriever automates the tasks of finding, downloading,
 and cleaning up publicly available data, and then stores them in a local database or as .csv files.
 Simply put, it's a package manager for data.
-This allows data analysts to spend a majority of their time in analysing rather than in cleaning up or managing data.
+This enables data analysts to devote the majority of their time to analysis rather than data cleaning or management.
 
 ## Installation
 
 ### Deps
-Python 3.7+
-[PyCall](https://github.com/JuliaPy/PyCall.jl)
-[Pkg](https://pkgdocs.julialang.org/v1/getting-started/) is needed and you can add packages using the `add` command or the `dev` command.
+- Python 3.7 and up
+- Julia 1.5+ is recommended
+- [PyCall](https://github.com/JuliaPy/PyCall.jl)
+- [Pkg](https://pkgdocs.julialang.org/v1/getting-started/) is needed, you can add packages using the `add` command or the `dev` command.
+
+	```julia
+
 	pkg> add "git@github.com:JuliaPy/PyCall.jl.git
-Julia 1.5+ is recommended
+
+	```
 
 The Retriever.jl depends on a few Julia packages that will be installed automatically.
 
@@ -45,8 +50,8 @@ Pkg.build("PyCall")
 ```
 
 Install the core Python [retriever](https://github.com/weecology/retriever) package.
-In case your Python path is set, You can use `Pip install retriever` or
-use PyCall to install the Python
+If your Python path is set, you can use `Pip install retriever` or
+Use PyCall to install Python.
 
 ```julia
 
@@ -58,7 +63,7 @@ julia> run(`$(PyCall.pyprogramname) -m pip install --user -- git+https://git@git
 
 ```
 
-install Retriever Julia package
+Install the Retriever Julia package.
 
 ```julia
 
@@ -66,7 +71,7 @@ julia> Pkg.add("Retriever")
 
 ```
 
-### Install from local Source
+### Install from a local source
 
 Download or checkout the source from the [github page](https://github.com/weecology/Retriever.jl.git).
 
@@ -91,7 +96,7 @@ using Retriever
 
 ### Database Management Systems
 
-Depending on the database management systems you wish to use, follow the `Setting up servers` [documentation of the retriever](https://retriever.readthedocs.io/en/latest/developer.html#setting-up-servers). You can change the credentials to suit your server settings.
+Depending on the database management system, you wish to use, follow the `Setting up servers` [documentation of the retriever](https://retriever.readthedocs.io/en/latest/developer.html#setting-up-servers). You can change the credentials to suit your server settings.
 
 
 ## Example of installing the Datasets
@@ -121,7 +126,7 @@ Creating docs.
 
 To create docs, first refer to the
 [Documenter docs](https://juliadocs.github.io/Documenter.jl/stable/man/guide).
-To test doc locally run make.jl
+To test the docs locally, run make.jl
 
 ```Shell
 

@@ -19,5 +19,6 @@ Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
 
 [compat]
 Documenter = "0.27"
+MySQL = "1"
 PyCall = "1.91"
 julia = "1"

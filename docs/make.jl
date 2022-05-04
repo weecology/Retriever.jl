@@ -1,4 +1,4 @@
-push!(LOAD_PATH,"../src/Retriever.jl")
+push!(LOAD_PATH, "../src/Retriever.jl")
 include("../src/Retriever.jl")
 
 using Documenter, DocumenterTools
@@ -9,7 +9,8 @@ makedocs(
     format = Documenter.HTML(
         # Use clean URLs, unless built as a "local" build
         # Or set prettyurls = false
-        prettyurls = !("local" in ARGS)),
+        prettyurls = !("local" in ARGS),
+    ),
     build = "build",
     sitename = "Retriever.jl",
     authors = "Ethan White",
@@ -20,13 +21,13 @@ makedocs(
         "Developer's Guide" => "developer.md",
         "Source" => "index.md",
         "Command Documentation" => "lib/public.md",
-        "Code of Conduct" => "CODE_OF_CONDUCT.md"
-    ]
+        "Code of Conduct" => "CODE_OF_CONDUCT.md",
+    ],
 )
 
 deploydocs(
     repo = "github.com/weecology/Retriever.jl.git",
     target = "build",
     deps = nothing,
-    make = nothing
+    make = nothing,
 )

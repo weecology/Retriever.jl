@@ -1,15 +1,21 @@
 # Developer documentation for Retriever Julia package
 
-Before you begin, make sure you have the retriever python package installed
+Before you begin, make sure you have the retriever python package installed.
+Read about the [Pkg REPL](https://pkgdocs.julialang.org/v1/getting-started/)
 
-# ALL required packeges
+# All required packeges
 
 These packages will be installed once the Retriever.jl package is installed
 
-Pycall
+PyCall
 Compat
 DocStringExtensions
 Documenter
+MySQL
+Pkg
+SQLite
+Test
+JuliaFormatter
 
 ### PyCall
 
@@ -27,8 +33,27 @@ julia> include("src/Retriever.jl")
 
 ### Tests
 
-The tests are performed in two fold
-We test the python core functions, and then followed by the julia core functions.
+Use Pkg REPL in the main directory
+
+```Julia
+
+pkg> test
+
+```
+
+### Linter
+
+```Julia
+
+julia> using JuliaFormatter
+
+# Recursively formats all Julia files in the current directory
+julia> format(".")
+
+# Formats an individual file
+julia> format_file("foo.jl")
+
+```
 
 ### Register and Release Retriever
 

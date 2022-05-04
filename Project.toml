@@ -9,6 +9,7 @@ version = "1.0.0"
 [deps]
 DocStringExtensions = "ffbed154-4ef7-542d-bbb7-c09d3a79fcae"
 Documenter = "e30172f5-a6a5-5a46-863b-614d45cd2de4"
+DocumenterTools = "35a29f4d-8980-5a13-9543-d66fff28ecb8"
 JuliaFormatter = "98e50ef6-434e-11e9-1051-2b60c6c9e899"
 MySQL = "39abe10b-433b-5dbd-92d4-e302a9df00cd"
 Pkg = "44cfe95a-1eb2-52ea-b672-e2afdf69b78f"

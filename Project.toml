@@ -19,7 +19,7 @@ SQLite = "0aa819cd-b072-5ff4-a722-6bc24af294d9"
 Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
 
 [compat]
-DocStringExtensions = "0.8"
+DocStringExtensions = "0.8, 0.9"
 Documenter = "0.27"
 DocumenterTools = "0.1"
 JuliaFormatter = "0.22, 1"
